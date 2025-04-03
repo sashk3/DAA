@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements | CampusHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dekko&family=Delius&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-medium: #1a3a6a;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-medium));
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Vertical Navbar */
+        .vertical-nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: rgba(10, 31, 61, 0.9);
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-logo a {
+            font-family: 'Delius', cursive;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-family: "Font Awesome 5 Free" !important;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .nav-item span {
+            font-family: 'Dekko', cursive;
+            font-size: 1.1rem;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+        }
+
+        .nav-item a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: transparent;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        /* Section Header */
+        .section-header {
+            margin-bottom: 30px;
+        }
+        
+        /* Announcement Cards */
+        .announcement-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .announcement-title {
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .announcement-date {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        .announcement-content {
+            margin-bottom: 15px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+
+        .announcement-source {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            text-align: right;
+            font-style: italic;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
+        .priority-normal {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--accent-color);
+        }
+
+        .priority-important {
+            background: rgba(255, 152, 0, 0.2);
+            color: var(--warning-color);
+        }
+
+        .priority-urgent {
+            background: rgba(244, 67, 54, 0.2);
+            color: var(--danger-color);
+        }
+
+        .no-content {
+            text-align: center;
+            padding: 50px;
+            color: rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Vertical Navbar -->
+    <nav class="vertical-nav">
+        <div class="nav-logo">
+            <a href="home.html"><h2>CampusHive</h2></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Club Dashboard</span>
+            <a href="clubdashboard.html"></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Calendar</span>
+            <a href="ecalendar.html"></a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-bullhorn"></i>
+            <span>Announcements</span>
+            <a href="announcements.html"></a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="section-header">
+            <h1>Announcements</h1>
+        </div>
+        
+        <div id="announcementsContainer">
+            <!-- Announcements will be loaded here -->
+            <div class="no-content" id="noAnnouncements">
+                <i class="fas fa-bullhorn" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                <h3>No announcements yet</h3>
+                <p>Check back later for updates</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const announcementsContainer = document.getElementById('announcementsContainer');
+            const noAnnouncements = document.getElementById('noAnnouncements');
+            
+            // Get all announcements from localStorage
+            const allAnnouncements = JSON.parse(localStorage.getItem('clubAnnouncements')) || [];
+            
+            if (allAnnouncements.length === 0) {
+                noAnnouncements.style.display = 'block';
+                return;
+            }
+            
+            noAnnouncements.style.display = 'none';
+            announcementsContainer.innerHTML = '';
+            
+            // Display all announcements (already sorted by date in club dashboard)
+            allAnnouncements.forEach(announcement => {
+                const announcementCard = document.createElement('div');
+                announcementCard.className = 'announcement-card';
+                
+                const date = new Date(announcement.date);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                let priorityBadge = '';
+                if (announcement.priority !== 'normal') {
+                    priorityBadge = `<span class="priority-badge priority-${announcement.priority}">${announcement.priority}</span>`;
+                }
+                
+                // Use clubName instead of author
+                const sourceName = announcement.clubName || "Student Club";
+                
+                announcementCard.innerHTML = `
+                    <div class="announcement-header">
+                        <h3 class="announcement-title">${announcement.title}${priorityBadge}</h3>
+                        <span class="announcement-date">${formattedDate}</span>
+                    </div>
+                    <div class="announcement-content">${announcement.content}</div>
+                    <div class="announcement-source">- ${sourceName}</div>
+                `;
+                
+                announcementsContainer.appendChild(announcementCard);
+            });
+        });
+    </script>
+</body>
+</html>

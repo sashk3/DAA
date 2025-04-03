@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements | CampusHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dekko&family=Delius&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-medium: #1a3a6a;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-medium));
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Vertical Navbar */
+        .vertical-nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: rgba(10, 31, 61, 0.9);
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-logo a {
+            font-family: 'Delius', cursive;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-item i {
+            font-family: "Font Awesome 5 Free" !important;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .nav-item span {
+            font-family: 'Dekko', cursive;
+            font-size: 1.1rem;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+        }
+
+        .nav-item a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 0 30px 0;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .section-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        select {
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: var(--primary-medium);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Card Grid Layout */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 15px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        /* Achievement Card Badge */
+        .achiev-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Vertical Navbar -->
+    <nav class="vertical-nav">
+        <div class="nav-logo">
+            <a href="home.html"><h2>CampusHive</h2></a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-tachometer-alt"></i>
+            <a href="student.html"><span>Dashboard</span></a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-code"></i>
+            <a href="hackathons.html"><span>Hackathons</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <a href="hostresearch.html"><span>Researches</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <a href="scalendar.html"><span>Calendar</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-bell"></i>
+            <a href="notes.html"><span>Notes</span></a>
+        </div>
+    </nav>
+
+    <!-- Main Content: Achievements Page -->
+    <div class="main-content">
+        <div class="section-header">
+            <h2><i class="fas fa-trophy"></i> Achievements</h2>
+            <div class="section-controls">
+                <button class="section-btn"><i class="fas fa-plus"></i> Add New</button>
+                <select>
+                    <option>Filter by</option>
+                    <option>1st</option>
+                    <option>2nd</option>
+                    <option>3rd</option>
+                    <option>Finalist</option>
+                </select>
+                <select>
+                    <option>Sort by</option>
+                    <option>Newest</option>
+                    <option>Oldest</option>
+                    <option>A-Z</option>
+                    <option>Z-A</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card-grid">
+            <!-- Achievement Card 1 -->
+            <div class="card achievement-card">
+                <span class="achiev-badge">1st</span>
+                <h3>Winner - CodeFest 2023</h3>
+                <p>Won intercollegiate coding competition.</p>
+            </div>
+            <!-- Achievement Card 2 -->
+            <div class="card achievement-card">
+                <span class="achiev-badge">2nd</span>
+                <h3>Runner Up - Hackathon 2022</h3>
+                <p>Secured second place in the national hackathon event.</p>
+            </div>
+            <!-- Achievement Card 3 -->
+            <div class="card achievement-card">
+                <span class="achiev-badge">3rd</span>
+                <h3>Third Place - Innovation Challenge</h3>
+                <p>Won third place in the college innovation challenge.</p>
+            </div>
+            <!-- Achievement Card 4 -->
+            <div class="card achievement-card">
+                <span class="achiev-badge">Finalist</span>
+                <h3>Finalist - Startup Competition</h3>
+                <p>Reached the finals in the regional startup competition.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

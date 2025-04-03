@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Calendar | CampusHive</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-medium: #1a3a6a;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+            --exams: #e91e63;
+            --tech-events: #2196F3;
+            --cultural: #4CAF50;
+            --festival: #FF9800;
+            --other: #9c27b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-medium));
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .vertical-nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: rgba(10, 31, 61, 0.9);
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-logo a {
+            font-family: 'Delius', cursive;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .nav-item span {
+            font-family: 'Dekko', cursive;
+            font-size: 1.1rem;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+        }
+
+        .nav-item a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        .day {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            font-size: 1.2rem;
+        }
+
+        .day:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .event-details-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.97);
+            padding: 25px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: black;
+            z-index: 1000;
+        }
+
+        .event-details-modal h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        .event-details-modal .event-info {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .event-details-modal .event-info p {
+            margin: 10px 0;
+        }
+
+        .event-details-modal .event-info strong {
+            color: var(--primary-dark);
+        }
+
+        .event-details-modal button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+        }
+
+        .event-details-modal .close-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .event-details-modal .edit-btn {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+        }
+
+        /* Added for colored event boxes */
+        .event-box {
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            position: relative;
+            text-align: left;
+            padding-right: 20px; /* Space for delete button */
+        }
+
+        .event-box button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .event-box button:hover {
+            background: rgba(0,0,0,0.5);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <!-- Vertical Navbar -->
+    <nav class="vertical-nav">
+        <div class="nav-logo">
+            <a href="home.html"><h2>CampusHive</h2></a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-tachometer-alt"></i>
+            <a href="clubdashboard.html"><span>Dashboard</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <a href="scalendar.html"><span>Calendar</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-bell"></i>
+            <a href="announcements.html"><span>Announcements</span></a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="calendar-header">
+            <button onclick="prevMonth()">&#9665; Prev</button>
+            <h2 id="monthYear"></h2>
+            <button onclick="nextMonth()">Next &#9655;</button>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item"><span class="legend-color" style="background: var(--exams);"></span> Exams</div>
+            <div class="legend-item"><span class="legend-color" style="background: var(--tech-events);"></span> Tech Events</div>
+            <div class="legend-item"><span class="legend-color" style="background: var(--cultural);"></span> Cultural</div>
+            <div class="legend-item"><span class="legend-color" style="background: var(--festival);"></span> Festival</div>
+        </div>
+
+        <div class="calendar" id="calendar"></div>
+    </div>
+
+    <!-- Modal Overlay (for blur effect) -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- Event Details Modal -->
+    <div class="event-details-modal" id="eventDetailsModal">
+        <h3>Event Details</h3>
+        <div class="event-info" id="eventInfo">
+            <!-- Event details will be inserted here -->
+        </div>
+        <button class="edit-btn" onclick="editEvent()">Edit</button>
+        <button class="close-btn" onclick="closeEventDetails()">Close</button>
+    </div>
+    
+    <script>
+        // Shared functions for both calendars
+        const CalendarData = {
+            getEvents: () => {
+                return JSON.parse(localStorage.getItem('calendarEvents')) || {};
+            },
+            
+            saveEvents: (events) => {
+                const version = parseInt(localStorage.getItem('calendarVersion') || '0') + 1;
+                localStorage.setItem('calendarVersion', version.toString());
+                localStorage.setItem('calendarEvents', JSON.stringify(events));
+                localStorage.setItem('calendarLastUpdated', Date.now().toString());
+            },
+            
+            listenForChanges: (callback) => {
+                window.addEventListener('storage', (event) => {
+                    if (event.key === 'calendarSyncTrigger') {
+                        callback();
+                    }
+                });
+            }
+        };
+
+        // Calendar initialization
+        let events = CalendarData.getEvents();
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let selectedDay = null;
+
+        function loadCalendar() {
+            let calendar = document.getElementById("calendar");
+            let monthYear = document.getElementById("monthYear");
+            let date = new Date(currentYear, currentMonth, 1);
+            monthYear.innerText = date.toLocaleString('default', { month: 'long' }) + " " + currentYear;
+            calendar.innerHTML = "";
+
+            for (let i = 1; i <= 30; i++) {
+                let day = document.createElement("div");
+                day.className = "day";
+                day.innerHTML = i;
+                
+                // Create a date key for this day
+                const dateKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                
+                // Check if there's an event for this date
+                if (events[dateKey]) {
+                    let eventContainer = document.createElement("div");
+                    eventContainer.style.marginTop = "5px";
+                    
+                    // Event box
+                    let eventBox = document.createElement("div");
+                    eventBox.className = "event-box";
+                    eventBox.innerText = events[dateKey].title;
+                    eventBox.style.backgroundColor = `var(--${events[dateKey].type})`;
+                    
+                    // Delete button
+                    let deleteBtn = document.createElement("button");
+                    deleteBtn.innerHTML = "";
+                    deleteBtn.style.background = "none";
+                    deleteBtn.style.border = "none";
+                    deleteBtn.style.color = "white";
+                    deleteBtn.style.cursor = "pointer";
+                    deleteBtn.style.float = "right";
+                    deleteBtn.style.fontSize = "0.8rem";
+                    deleteBtn.onclick = (e) => {
+                        e.stopPropagation(); // Prevent triggering day click
+                        deleteEvent(dateKey);
+                    };
+                    
+                    eventBox.appendChild(deleteBtn);
+                    eventContainer.appendChild(eventBox);
+                    day.appendChild(eventContainer);
+                }
+                
+                day.onclick = () => showEventDetails(i);
+                calendar.appendChild(day);
+            }
+        }
+
+        function showEventDetails(day) {
+            selectedDay = day;
+            const dateKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const event = events[dateKey];
+            
+            if (!event) {
+                // If no event exists, we could show a message or do nothing
+                return;
+            }
+            
+            // Display event details in modal
+            const eventInfo = document.getElementById("eventInfo");
+            eventInfo.innerHTML = `
+                <p><strong>Title:</strong> ${event.title}</p>
+                <p><strong>Details:</strong> ${event.details || 'No details provided'}</p>
+                <p><strong>Type:</strong> ${event.type.charAt(0).toUpperCase() + event.type.slice(1).replace('-', ' ')}</p>
+                <p><strong>Created:</strong> ${new Date(event.createdAt).toLocaleDateString()}</p>
+            `;
+            
+            // Show modal
+            document.getElementById("modalOverlay").style.display = "block";
+            document.getElementById("eventDetailsModal").style.display = "block";
+        }
+
+        function closeEventDetails() {
+            document.getElementById("modalOverlay").style.display = "none";
+            document.getElementById("eventDetailsModal").style.display = "none";
+        }
+
+        function editEvent() {
+            closeEventDetails();
+            // Here you would typically open an edit form
+            // For now, we'll just show an alert
+            alert("Edit functionality would open a form here");
+        }
+
+
+        function prevMonth() { 
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            loadCalendar(); 
+        }
+
+        function nextMonth() { 
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            loadCalendar(); 
+        }
+
+        // Load calendar when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCalendar();
+            
+            // Listen for changes from ecalendar
+            CalendarData.listenForChanges(() => {
+                events = CalendarData.getEvents();
+                loadCalendar();
+            });
+        });
+    </script>
+</body>
+</html>

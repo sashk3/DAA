@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneDrive-like Notes Sharing | CampusHive</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dekko&family=Delius&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-medium: #1a3a6a;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-medium));
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+        }
+
+        .vertical-nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: rgba(10, 31, 61, 0.9);
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-logo a {
+            font-size: 20px;
+            padding-left: 60px;
+            font-family: "Delius",cursive;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: "Delius",cursive;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-item a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+        }
+
+        .main-content {
+            margin-left: 270px;
+            padding: 40px;
+            width: 100%;
+        }
+
+        .breadcrumb {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: #ffcc00;
+            cursor: pointer;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .folder, .file, .undo {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            width: 150px;
+        }
+
+        .folder:hover, .file:hover, .undo:hover {
+            background: var(--primary-light);
+        }
+
+        .folder i, .file i, .undo i {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: #ffcc00;
+        }
+
+        .folder span, .file span, .undo span {
+            display: block;
+            font-size: 1rem;
+        }
+
+        .upload-box, .new-folder-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .upload-box input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: black;
+    margin-bottom: 10px; /* Adds spacing */
+}
+
+
+        .upload-box input, .new-folder-box input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+        }
+
+        .upload-box button, .new-folder-box button {
+            background: var(--accent-color);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .upload-box button:hover, .new-folder-box button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Vertical Navbar -->
+    <nav class="vertical-nav">
+        <div class="nav-logo">
+            <a href="home.html"><h2>CampusHive</h2></a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-tachometer-alt"></i>
+            <a href="student.html"><span>Dashboard</span></a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-code"></i>
+            <a href="hackathons.html"><span>Hackathons</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <a href="hostresearch.html"><span>Researches</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <a href="scalendar.html"><span>Calendar</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-bell"></i>
+            <a href="notes.html"><span>Notes</span></a>
+        </div>
+    </nav>
+    <div class="main-content">
+        <h2>Notes Sharing & Downloading</h2>
+
+        <div class="breadcrumb" id="breadcrumb" onclick="goBack()">Home</div>
+
+        <div class="container" id="fileContainer"></div>
+
+        <div class="new-folder-box">
+            <h3>Create New Folder</h3>
+            <input type="text" id="folderName" placeholder="Folder Name">
+            <button onclick="createFolder()">Create</button>
+        </div>
+
+        <div class="upload-box">
+            <h3>Upload Notes (Drive URL)</h3>
+            <input type="text" id="fileName" placeholder="File Name">
+            <input type="url" id="onedriveLink" placeholder="Paste One Drive link">
+            <button onclick="uploadFile()">Upload</button>
+        </div>
+        
+    </div>
+
+    <script>
+        let folderStructure = JSON.parse(localStorage.getItem("folders")) || { root: {} };
+        let currentPath = ["root"];
+        let userRole = localStorage.getItem("userRole") || "student"; // Change this value to "faculty" for faculty users
+        
+        function renderFolder() {
+            let container = document.getElementById("fileContainer");
+            container.innerHTML = "";
+        
+            if (currentPath.length > 1) {
+                let backDiv = document.createElement("div");
+                backDiv.className = "undo";
+                backDiv.innerHTML = `<i class="fas fa-undo"></i><span>Back</span>`;
+                backDiv.onclick = goBack;
+                container.appendChild(backDiv);
+            }
+        
+            let folder = folderStructure;
+            currentPath.forEach((p) => (folder = folder[p]));
+        
+            Object.keys(folder).forEach((name) => {
+                let div = document.createElement("div");
+                div.className = folder[name] instanceof Object ? "folder" : "file";
+                div.innerHTML = `<i class="fas ${
+                    folder[name] instanceof Object ? "fa-folder" : "fa-file-alt"
+                }"></i><span>${name}</span>`;
+                div.onclick = () => {
+                    if (folder[name] instanceof Object) {
+                        currentPath.push(name);
+                        renderFolder();
+                    } else {
+                        window.open(folder[name], "_blank");
+                    }
+                };
+                container.appendChild(div);
+            });
+        
+            document.getElementById("breadcrumb").innerHTML =
+                "📂 " + currentPath.slice(1).join(" / ");
+        }
+        
+        function createFolder() {
+            let folder = folderStructure;
+            currentPath.forEach((p) => (folder = folder[p]));
+            let name = document.getElementById("folderName").value.trim();
+            if (name && !folder[name]) {
+                folder[name] = {};
+                localStorage.setItem("folders", JSON.stringify(folderStructure));
+                renderFolder();
+                document.getElementById("folderName").value = ""; // Clear input field
+            }
+        }
+        
+        function uploadFile() {
+            let folder = folderStructure;
+            currentPath.forEach((p) => (folder = folder[p]));
+            let name = document.getElementById("fileName").value.trim();
+            let url = document.getElementById("onedriveLink").value.trim();
+            
+            if (!name || !url) {
+                alert("Please enter both file name and valid OneDrive link.");
+                return;
+            }
+            
+            // Restrict students from uploading files in the Faculty folder
+            if (userRole === "student" && currentPath.includes("Faculty")) {
+                alert("You do not have permission to upload files in the Faculty folder.");
+                return;
+            }
+            
+            folder[name] = url;
+            localStorage.setItem("folders", JSON.stringify(folderStructure));
+            renderFolder();
+        
+            // Clear input fields after successful upload
+            document.getElementById("fileName").value = "";
+            document.getElementById("onedriveLink").value = "";
+        }
+        
+        function goBack() {
+            if (currentPath.length > 1) {
+                currentPath.pop();
+                renderFolder();
+            }
+        }
+        
+        // Initial rendering of the folder structure
+        renderFolder();
+        </script>
+
+</body>
+</html>

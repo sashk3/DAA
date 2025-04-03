@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Registration | CampusHive</title>
+    <style>
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        
+        button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .error {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        
+        .success-message {
+            display: none;
+            background: rgba(76, 175, 80, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .club-logo-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            margin: 0 auto;
+            display: block;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Club Registration</h1>
+        <div class="success-message" id="successMessage">
+            Registration successful! Redirecting...
+        </div>
+        
+        <form id="signupForm">
+            <div class="form-group">
+                <label>Club Name</label>
+                <input type="text" name="clubName" required minlength="4" maxlength="50">
+                <div class="error" id="clubNameError">Club name must be 4-50 characters</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" required>
+                <div class="error" id="emailError">Please enter a valid email</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Password (min 8 characters)</label>
+                <input type="password" name="password" required minlength="8">
+                <div class="error" id="passwordError">Password must be at least 8 characters</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Club Type</label>
+                <select name="clubType" required>
+                    <option value="">Select Club Type</option>
+                    <option value="technical">Technical</option>
+                    <option value="non-technical">Non-Technical</option>
+                    <option value="cultural">Cultural</option>
+                    <option value="sports">Sports</option>
+                    <option value="other">Other</option>
+                </select>
+                <div class="error" id="clubTypeError">Please select a club type</div>
+            </div>
+                        
+            <div class="form-group">
+                <label>Club Logo (Optional)</label>
+                <input type="file" id="clubLogo" accept="image/*">
+                <img id="clubLogoPreview" class="club-logo-preview" src="https://via.placeholder.com/100">
+                <div class="error" id="logoError">Please select a valid image</div>
+            </div>
+            
+            <button type="submit">Register Club</button>
+        </form>
+    </div>
+
+    <script>
+        // Club Logo Preview
+        document.getElementById('clubLogo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (!file.type.match('image.*')) {
+                    document.getElementById('logoError').style.display = 'block';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('clubLogoPreview').src = event.target.result;
+                    document.getElementById('logoError').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form Validation and Submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Reset errors
+            document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+            
+            // Validate each field
+            const fields = [
+                { id: 'clubName', test: (val) => val.length >= 4 && val.length <= 50 },
+                { id: 'email', test: (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) },
+                { id: 'password', test: (val) => val.length >= 8 },
+                { id: 'clubType', test: (val) => val !== '' }
+            ];
+            
+            fields.forEach(field => {
+                const value = this.elements[field.id].value;
+                if (!field.test(value)) {
+                    document.getElementById(`${field.id}Error`).style.display = 'block';
+                    isValid = false;
+                }
+            });
+            
+            // Validate logo if uploaded
+            const logoInput = document.getElementById('clubLogo');
+            if (logoInput.files.length > 0 && !logoInput.files[0].type.match('image.*')) {
+                document.getElementById('logoError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Prepare club data
+                const clubData = {
+                    clubName: this.elements.clubName.value,
+                    email: this.elements.email.value,
+                    password: this.elements.password.value,
+                    clubType: this.elements.clubType.value,
+                    role: "club", // Role mapping
+                    members: [],
+                    events: [],
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Add logo if uploaded
+                if (logoInput.files.length > 0) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        clubData.logo = event.target.result;
+                        completeRegistration(clubData);
+                    };
+                    reader.readAsDataURL(logoInput.files[0]);
+                } else {
+                    completeRegistration(clubData);
+                }
+            }
+        });
+        
+        function completeRegistration(clubData) {
+            // Store in localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Check if email already exists
+            if (users.some(u => u.email === clubData.email)) {
+                alert('Club with this email already exists!');
+                return;
+            }
+            
+            users.push(clubData);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+            
+            // Auto-login and redirect
+            localStorage.setItem('currentUser', JSON.stringify({
+                email: clubData.email,
+                role: "club"
+            }));
+            
+            // Redirect after delay
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000);
+        }
+        
+        // Real-time validation
+        document.querySelectorAll('#signupForm input, #signupForm select, #signupForm textarea').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.checkValidity()) {
+                    const errorId = `${this.name}Error`;
+                    if (document.getElementById(errorId)) {
+                        document.getElementById(errorId).style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

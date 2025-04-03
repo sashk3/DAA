@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Collaborations | CampusHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dekko&family=Delius&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* (Previous CSS styles from hackathon page remain exactly the same) */
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-medium: #1a3a6a;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-medium));
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        /* Vertical Navbar */
+        .vertical-nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: rgba(10, 31, 61, 0.9);
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-logo a {
+            font-family: 'Delius', cursive;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-item i {
+            font-family: "Font Awesome 5 Free" !important;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .nav-item span {
+            font-family: 'Dekko', cursive;
+            font-size: 1.1rem;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+        }
+
+        .nav-item a{
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 0 30px 0;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .section-btn {
+            padding: 10px 15px;
+            border-radius: 6px;
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 140px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .section-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        select {
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: var(--primary-medium);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+        }
+
+        /* Event Grid */
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 1200px) {
+            .event-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Event Card */
+        .event-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .event-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .event-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .event-card .event-description {
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.8);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .event-card .event-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .event-card .event-details span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .event-card .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .badge.online {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+
+        .badge.offline {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--primary-medium);
+            padding: 30px;
+            border-radius: 10px;
+            width: 600px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3d8b40;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #1d4a8a;
+            transform: translateY(-2px);
+        }
+
+        /* Form steps */
+        .form-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .form-steps::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255,255,255,0.2);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .step.active .step-number {
+            background: var(--accent-color);
+        }
+
+        .step.completed .step-number {
+            background: var(--accent-color);
+        }
+
+        .step.completed .step-number::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+
+        .step-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .step.active .step-label {
+            color: white;
+        }
+
+        .step.completed .step-label {
+            color: var(--accent-color);
+        }
+
+        /* Form step content */
+        .form-step-content {
+            display: none;
+        }
+
+        .form-step-content.active {
+            display: block;
+        }
+
+        /* Form navigation */
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        /* Event details modal */
+        .event-detail-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .event-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .event-detail-badges {
+            display: flex;
+            gap: 10px;
+        }
+
+        .event-detail-description {
+            line-height: 1.6;
+        }
+
+        .event-detail-section {
+            margin-top: 15px;
+        }
+
+        .event-detail-section h4 {
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .event-detail-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Request to join modal */
+        .request-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* No events message */
+        .no-events {
+            text-align: center;
+            padding: 50px;
+            color: rgba(255,255,255,0.5);
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Vertical Navbar (same as before) -->
+    <nav class="vertical-nav">
+        <div class="nav-logo">
+            <a href="home.html"><h2>CampusHive</h2></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-tachometer-alt"></i>
+            <a href="student.html"><span>Dashboard</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-code"></i>
+            <a href="hackathons.html"><span>Hackathons</span></a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-flask"></i>
+            <a href="hostresearch.html"><span>Researches</span></a>
+        </div>
+
+        <div class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <a href="scalendar.html"><span>Calendar</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-bell"></i>
+            <a href="notes.html"><span>Notes</span></a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="section-header">
+            <h1>Research Collaborations</h1>
+            <div class="section-controls">
+                <button class="section-btn" onclick="showHostModal()">
+                    <i class="fas fa-plus"></i> Host a Team
+                </button>
+                <select id="filterDomain">
+                    <option value="all">All Domains</option>
+                    <option value="cs">Computer Science</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="biology">Biology</option>
+                    <option value="physics">Physics</option>
+                    <option value="math">Mathematics</option>
+                    <option value="medicine">Medicine</option>
+                    <option value="social">Social Sciences</option>
+                </select>
+                <select id="filterStatus">
+                    <option value="all">All Statuses</option>
+                    <option value="planning">Planning Stage</option>
+                    <option value="data">Data Collection</option>
+                    <option value="writing">Writing Paper</option>
+                    <option value="submitted">Submitted</option>
+                </select>
+                <select id="sortBy">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="a-z">A-Z</option>
+                    <option value="z-a">Z-A</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="event-grid" id="researchGrid">
+            <!-- Research teams will be dynamically added here -->
+            <div class="no-events" id="noResearchMessage">
+                <i class="fas fa-microscope" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                <h3>No research teams found</h3>
+                <p>Start or join a research collaboration!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Host Research Team Modal -->
+    <div class="modal-overlay" id="hostModalOverlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Host a Research Team</h3>
+                <span class="modal-close" onclick="closeHostModal()">&times;</span>
+            </div>
+            
+            <div class="form-steps">
+                <div class="step active" id="step1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Research Details</div>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Team Requirements</div>
+                </div>
+            </div>
+            
+            <form id="hostForm">
+                <div class="form-step-content active" id="step1Content">
+                    <div class="form-group">
+                        <label>Research Title</label>
+                        <input type="text" id="researchTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Research Description</label>
+                        <textarea id="researchDescription" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Research Domain</label>
+                        <select id="researchDomain" required>
+                            <option value="">Select Domain</option>
+                            <option value="cs">Computer Science</option>
+                            <option value="engineering">Engineering</option>
+                            <option value="biology">Biology</option>
+                            <option value="physics">Physics</option>
+                            <option value="math">Mathematics</option>
+                            <option value="medicine">Medicine</option>
+                            <option value="social">Social Sciences</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Current Stage</label>
+                        <select id="researchStage" required>
+                            <option value="">Select Stage</option>
+                            <option value="planning">Planning Stage</option>
+                            <option value="data">Data Collection</option>
+                            <option value="writing">Writing Paper</option>
+                            <option value="submitted">Submitted for Review</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary" onclick="closeHostModal()">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+                    </div>
+                </div>
+                
+                <div class="form-step-content" id="step2Content">
+                    <div class="form-group">
+                        <label>Team Name</label>
+                        <input type="text" id="teamName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Roles Needed (Select at least one)</label>
+                        <select id="requiredRoles" multiple required>
+                            <option value="writer">Writer/Author</option>
+                            <option value="researcher">Researcher</option>
+                            <option value="analyst">Data Analyst</option>
+                            <option value="programmer">Programmer</option>
+                            <option value="designer">Visual Designer</option>
+                            <option value="reviewer">Literature Reviewer</option>
+                        </select>
+                        <small>Hold Ctrl/Cmd to select multiple roles</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Required Skills/Expertise</label>
+                        <textarea id="requiredSkills" placeholder="List specific skills or expertise needed"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Expected Time Commitment (hours/week)</label>
+                        <input type="number" id="timeCommitment" min="1" max="40" required>
+                    </div>
+                    
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Back</button>
+                        <button type="submit" class="btn btn-primary">Host Research Team</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Research Detail Modal -->
+    <div class="modal-overlay" id="researchDetailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="detailResearchTitle">Research Title</h3>
+                <span class="modal-close" onclick="closeResearchDetailModal()">&times;</span>
+            </div>
+            
+            <div class="event-detail-content">
+                <div class="event-detail-header">
+                    <div class="event-detail-badges" id="detailBadges">
+                        <!-- Badges will be added here -->
+                    </div>
+                    <div>
+                        <span class="badge" id="detailTimeCommitment">5 hrs/week</span>
+                    </div>
+                </div>
+                
+                <div class="event-detail-description" id="detailDescription">
+                    Research description will appear here.
+                </div>
+                
+                <div class="event-detail-section">
+                    <h4>Team Details</h4>
+                    <p><strong>Team Name:</strong> <span id="detailTeamName">Team Name</span></p>
+                    <p><strong>Looking for:</strong> <span id="detailRoles">Roles</span></p>
+                    <p id="detailRequiredSkills"><strong>Required Skills:</strong> None specified</p>
+                </div>
+                
+                <div class="event-detail-section">
+                    <h4>Research Information</h4>
+                    <p><strong>Domain:</strong> <span id="detailDomain">Computer Science</span></p>
+                    <p><strong>Current Stage:</strong> <span id="detailStage">Planning</span></p>
+                </div>
+                
+                <div class="event-detail-actions">
+                    <button class="btn btn-secondary" onclick="closeResearchDetailModal()">Close</button>
+                    <button class="btn btn-primary" onclick="showRequestModal()">Request to Join</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request to Join Modal (same as before) -->
+    <div class="modal-overlay" id="requestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Request to Join Research Team</h3>
+                <span class="modal-close" onclick="closeRequestModal()">&times;</span>
+            </div>
+            
+            <form id="requestForm" class="request-form">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="requestName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="requestEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Skills/Expertise</label>
+                    <textarea id="requestSkills" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Relevant Experience</label>
+                    <textarea id="requestExperience" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Why do you want to join this research? (Brief introduction)</label>
+                    <textarea id="requestMessage" required></textarea>
+                </div>
+                
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" onclick="closeRequestModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for research teams
+        let researchTeams = [
+            {
+                id: 1,
+                researchTitle: "Machine Learning for Climate Prediction",
+                researchDescription: "Investigating novel ML approaches to improve climate prediction models using satellite data and historical climate patterns.",
+                teamName: "Climate AI Researchers",
+                researchDomain: "cs",
+                researchStage: "data",
+                requiredRoles: ["researcher", "analyst", "programmer"],
+                requiredSkills: "Python, TensorFlow, Climate Science basics",
+                timeCommitment: 8,
+                createdAt: new Date("2023-09-15")
+            },
+            {
+                id: 2,
+                researchTitle: "Blockchain Applications in Healthcare",
+                researchDescription: "Exploring how blockchain technology can be applied to secure patient health records and improve data sharing between providers.",
+                teamName: "HealthChain",
+                researchDomain: "medicine",
+                researchStage: "planning",
+                requiredRoles: ["writer", "programmer", "reviewer"],
+                requiredSkills: "Blockchain fundamentals, Healthcare IT knowledge",
+                timeCommitment: 5,
+                createdAt: new Date("2023-10-05")
+            },
+            {
+                id: 3,
+                researchTitle: "Quantum Algorithms for Optimization Problems",
+                researchDescription: "Developing new quantum computing algorithms to solve complex optimization problems in logistics and supply chain management.",
+                teamName: "Qubit Pioneers",
+                researchDomain: "physics",
+                researchStage: "writing",
+                requiredRoles: ["researcher", "writer", "programmer"],
+                requiredSkills: "Quantum computing basics, Linear algebra, Python",
+                timeCommitment: 10,
+                createdAt: new Date("2023-10-20")
+            }
+        ];
+
+        // DOM elements
+        const researchGrid = document.getElementById('researchGrid');
+        const noResearchMessage = document.getElementById('noResearchMessage');
+        const filterDomain = document.getElementById('filterDomain');
+        const filterStatus = document.getElementById('filterStatus');
+        const sortBy = document.getElementById('sortBy');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderResearchTeams(researchTeams);
+            
+            // Add event listeners for filters and sorting
+            filterDomain.addEventListener('change', applyFilters);
+            filterStatus.addEventListener('change', applyFilters);
+            sortBy.addEventListener('change', applyFilters);
+            
+            // Initialize multi-select for roles
+            initializeMultiSelect();
+        });
+
+        // Render research teams to the grid
+        function renderResearchTeams(teams) {
+            if (teams.length === 0) {
+                noResearchMessage.style.display = 'block';
+                researchGrid.innerHTML = '';
+                researchGrid.appendChild(noResearchMessage);
+                return;
+            }
+            
+            noResearchMessage.style.display = 'none';
+            researchGrid.innerHTML = '';
+            
+            teams.forEach(team => {
+                const teamCard = document.createElement('div');
+                teamCard.className = 'event-card';
+                teamCard.setAttribute('data-id', team.id);
+                teamCard.onclick = () => showResearchDetailModal(team.id);
+                
+                // Truncate description if too long
+                const maxDescriptionLength = 150;
+                let description = team.researchDescription;
+                if (description.length > maxDescriptionLength) {
+                    description = description.substring(0, maxDescriptionLength) + '...';
+                }
+                
+                // Create badges for roles
+                let roleBadges = '';
+                team.requiredRoles.forEach(role => {
+                    roleBadges += `<span class="badge">${getRoleName(role)}</span>`;
+                });
+                
+                teamCard.innerHTML = `
+                    <h3>${team.researchTitle}</h3>
+                    <p class="event-description">${description}</p>
+                    <div class="event-details">
+                        <span><i class="fas fa-user-friends"></i> ${team.requiredRoles.length} roles needed</span>
+                        <span><i class="fas fa-clock"></i> ${team.timeCommitment} hrs/week</span>
+                    </div>
+                    <div class="badges">
+                        <span class="badge">
+                            <i class="fas fa-${getDomainIcon(team.researchDomain)}"></i>
+                            ${getDomainName(team.researchDomain)}
+                        </span>
+                        <span class="badge ${getStageClass(team.researchStage)}">
+                            ${getStageName(team.researchStage)}
+                        </span>
+                        ${roleBadges}
+                    </div>
+                `;
+                
+                researchGrid.appendChild(teamCard);
+            });
+        }
+
+        // Apply filters and sorting
+        function applyFilters() {
+            let filteredTeams = [...researchTeams];
+            
+            // Filter by domain
+            const domainFilter = filterDomain.value;
+            if (domainFilter !== 'all') {
+                filteredTeams = filteredTeams.filter(team => team.researchDomain === domainFilter);
+            }
+            
+            // Filter by status
+            const statusFilter = filterStatus.value;
+            if (statusFilter !== 'all') {
+                filteredTeams = filteredTeams.filter(team => team.researchStage === statusFilter);
+            }
+            
+            // Sort teams
+            const sortOption = sortBy.value;
+            switch (sortOption) {
+                case 'newest':
+                    filteredTeams.sort((a, b) => b.createdAt - a.createdAt);
+                    break;
+                case 'oldest':
+                    filteredTeams.sort((a, b) => a.createdAt - b.createdAt);
+                    break;
+                case 'a-z':
+                    filteredTeams.sort((a, b) => a.researchTitle.localeCompare(b.researchTitle));
+                    break;
+                case 'z-a':
+                    filteredTeams.sort((a, b) => b.researchTitle.localeCompare(a.researchTitle));
+                    break;
+            }
+            
+            renderResearchTeams(filteredTeams);
+        }
+
+        // Helper functions for research-specific data
+        function getDomainName(domainCode) {
+            const domains = {
+                'cs': 'Computer Science',
+                'engineering': 'Engineering',
+                'biology': 'Biology',
+                'physics': 'Physics',
+                'math': 'Mathematics',
+                'medicine': 'Medicine',
+                'social': 'Social Sciences'
+            };
+            return domains[domainCode] || domainCode;
+        }
+
+        function getDomainIcon(domainCode) {
+            const icons = {
+                'cs': 'laptop-code',
+                'engineering': 'cogs',
+                'biology': 'dna',
+                'physics': 'atom',
+                'math': 'square-root-alt',
+                'medicine': 'briefcase-medical',
+                'social': 'users'
+            };
+            return icons[domainCode] || 'flask';
+        }
+
+        function getStageName(stageCode) {
+            const stages = {
+                'planning': 'Planning',
+                'data': 'Data Collection',
+                'writing': 'Writing',
+                'submitted': 'Submitted'
+            };
+            return stages[stageCode] || stageCode;
+        }
+
+        function getStageClass(stageCode) {
+            const classes = {
+                'planning': 'online',
+                'data': 'offline',
+                'writing': 'online',
+                'submitted': 'offline'
+            };
+            return classes[stageCode] || '';
+        }
+
+        function getRoleName(roleCode) {
+            const roles = {
+                'writer': 'Writer',
+                'researcher': 'Researcher',
+                'analyst': 'Analyst',
+                'programmer': 'Programmer',
+                'designer': 'Designer',
+                'reviewer': 'Reviewer'
+            };
+            return roles[roleCode] || roleCode;
+        }
+
+        // Modal functions for hosting a research team
+        function showHostModal() {
+            document.getElementById('hostModalOverlay').style.display = 'flex';
+            resetHostForm();
+        }
+
+        function closeHostModal() {
+            document.getElementById('hostModalOverlay').style.display = 'none';
+        }
+
+        function resetHostForm() {
+            // Reset all form steps
+            document.getElementById('hostForm').reset();
+            
+            // Reset steps
+            document.querySelectorAll('.step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index === 0) step.classList.add('active');
+            });
+            
+            // Reset step content
+            document.querySelectorAll('.form-step-content').forEach((content, index) => {
+                content.classList.remove('active');
+                if (index === 0) content.classList.add('active');
+            });
+        }
+
+        function nextStep(stepNumber) {
+            // Validate current step before proceeding
+            if (stepNumber === 2 && !validateStep1()) return;
+            
+            // Update steps UI
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            document.getElementById(`step${stepNumber-1}`).classList.add('completed');
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            
+            // Update step content
+            document.querySelectorAll('.form-step-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.getElementById(`step${stepNumber}Content`).classList.add('active');
+        }
+
+        function prevStep(stepNumber) {
+            // Update steps UI
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active', 'completed');
+            });
+            
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            
+            // Update step content
+            document.querySelectorAll('.form-step-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.getElementById(`step${stepNumber}Content`).classList.add('active');
+        }
+
+        function validateStep1() {
+            const researchTitle = document.getElementById('researchTitle').value.trim();
+            const researchDescription = document.getElementById('researchDescription').value.trim();
+            const researchDomain = document.getElementById('researchDomain').value;
+            const researchStage = document.getElementById('researchStage').value;
+            
+            if (!researchTitle || !researchDescription || !researchDomain || !researchStage) {
+                alert('Please fill in all fields in Step 1');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Handle form submission for hosting a research team
+        document.getElementById('hostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const newTeam = {
+                id: researchTeams.length + 1,
+                researchTitle: document.getElementById('researchTitle').value.trim(),
+                researchDescription: document.getElementById('researchDescription').value.trim(),
+                teamName: document.getElementById('teamName').value.trim(),
+                researchDomain: document.getElementById('researchDomain').value,
+                researchStage: document.getElementById('researchStage').value,
+                requiredRoles: Array.from(document.getElementById('requiredRoles').selectedOptions)
+                                  .map(option => option.value),
+                requiredSkills: document.getElementById('requiredSkills').value.trim() || 'None specified',
+                timeCommitment: parseInt(document.getElementById('timeCommitment').value),
+                createdAt: new Date()
+            };
+            
+            // Add to researchTeams array
+            researchTeams.unshift(newTeam);
+            
+            // Close modal and refresh teams
+            closeHostModal();
+            applyFilters();
+            
+            // Show success message
+            alert('Your research team has been successfully created!');
+        });
+
+        // Research detail modal functions
+        function showResearchDetailModal(teamId) {
+            const team = researchTeams.find(t => t.id === teamId);
+            if (!team) return;
+            
+            // Set modal content
+            document.getElementById('detailResearchTitle').textContent = team.researchTitle;
+            document.getElementById('detailDescription').textContent = team.researchDescription;
+            document.getElementById('detailTeamName').textContent = team.teamName;
+            document.getElementById('detailTimeCommitment').textContent = `${team.timeCommitment} hrs/week`;
+            document.getElementById('detailRoles').textContent = team.requiredRoles.map(getRoleName).join(', ');
+            document.getElementById('detailDomain').textContent = getDomainName(team.researchDomain);
+            document.getElementById('detailStage').textContent = getStageName(team.researchStage);
+            
+            // Set required skills or hide if none
+            const skillsElement = document.getElementById('detailRequiredSkills');
+            if (team.requiredSkills && team.requiredSkills !== 'None specified') {
+                skillsElement.innerHTML = `<strong>Required Skills:</strong> ${team.requiredSkills}`;
+                skillsElement.style.display = 'block';
+            } else {
+                skillsElement.style.display = 'none';
+            }
+            
+            // Set badges
+            const badgesContainer = document.getElementById('detailBadges');
+            badgesContainer.innerHTML = `
+                <span class="badge">
+                    <i class="fas fa-${getDomainIcon(team.researchDomain)}"></i>
+                    ${getDomainName(team.researchDomain)}
+                </span>
+                <span class="badge ${getStageClass(team.researchStage)}">
+                    ${getStageName(team.researchStage)}
+                </span>
+            `;
+            
+            // Store current team ID in modal for request form
+            document.getElementById('researchDetailModal').setAttribute('data-current-team', teamId);
+            
+            // Show modal
+            document.getElementById('researchDetailModal').style.display = 'flex';
+        }
+
+        function closeResearchDetailModal() {
+            document.getElementById('researchDetailModal').style.display = 'none';
+        }
+
+        // Request to join modal functions
+        function showRequestModal() {
+            // Get the current team ID from the detail modal
+            const teamId = parseInt(document.getElementById('researchDetailModal').getAttribute('data-current-team'));
+            const team = researchTeams.find(t => t.id === teamId);
+            
+            if (!team) {
+                alert('Team not found');
+                return;
+            }
+            
+            // Set the team name in the request form
+            document.getElementById('requestForm').setAttribute('data-team-name', team.teamName);
+            
+            // Close the detail modal and open the request modal
+            closeResearchDetailModal();
+            document.getElementById('requestModal').style.display = 'flex';
+        }
+
+        function closeRequestModal() {
+            document.getElementById('requestModal').style.display = 'none';
+        }
+
+        // Handle form submission for requesting to join a team
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const name = document.getElementById('requestName').value.trim();
+            const email = document.getElementById('requestEmail').value.trim();
+            const skills = document.getElementById('requestSkills').value.trim();
+            const experience = document.getElementById('requestExperience').value.trim();
+            const message = document.getElementById('requestMessage').value.trim();
+            const teamName = this.getAttribute('data-team-name');
+            
+            // Simple validation
+            if (!name || !email || !skills || !experience || !message) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // In a real application, you would send this data to a server
+            console.log(`Join request submitted for team: ${teamName}`);
+            console.log(`Name: ${name}, Email: ${email}, Skills: ${skills}`);
+            console.log(`Experience: ${experience}, Message: ${message}`);
+            
+            // Show success message
+            alert(`Your request to join ${teamName} has been submitted successfully!`);
+            
+            // Close modal and reset form
+            closeRequestModal();
+            this.reset();
+        });
+
+        // Initialize multiple select for roles
+        function initializeMultiSelect() {
+            const rolesSelect = document.getElementById('requiredRoles');
+            
+            // Add event listener to show selected count
+            rolesSelect.addEventListener('change', function() {
+                const selectedCount = Array.from(this.selectedOptions).length;
+                const label = this.previousElementSibling;
+                
+                if (selectedCount > 0) {
+                    label.textContent = `Roles Needed (${selectedCount} selected)`;
+                } else {
+                    label.textContent = 'Roles Needed (Select at least one)';
+                }
+            });
+        }
+
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    if (this.id === 'hostModalOverlay') closeHostModal();
+                    if (this.id === 'researchDetailModal') closeResearchDetailModal();
+                    if (this.id === 'requestModal') closeRequestModal();
+                }
+            });
+        });
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (document.getElementById('hostModalOverlay').style.display === 'flex') closeHostModal();
+                if (document.getElementById('researchDetailModal').style.display === 'flex') closeResearchDetailModal();
+                if (document.getElementById('requestModal').style.display === 'flex') closeRequestModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard | CampusHive</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-medium: #1a3a6a;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-medium));
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+        }
+
+        /* Vertical Navbar */
+        .vertical-nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: rgba(10, 31, 61, 0.9);
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-logo a {
+            font-family: 'Delius', cursive;
+            font-size: 24px;
+            color: white;
+            padding-left: 25px;
+            text-decoration: none;
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-item i {
+            font-family: "Font Awesome 5 Free" !important;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .nav-item span {
+            font-family: 'Dekko', cursive;
+            font-size: 1.1rem;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+        }
+        .nav-item a{
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-left: 270px;
+            padding: 40px;
+            width: 100%;
+        }
+
+        /* Faculty Profile Section */
+        .profile-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .profile-card h2 {
+            margin: 5px 0;
+            font-size: 1.5rem;
+        }
+
+        .profile-card p {
+            margin: 3px 0;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .profile-actions {
+            margin-top: 15px;
+        }
+        .profile-actions a{
+            color:white;
+            text-decoration: none;
+        }
+
+        .profile-actions button {
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 1rem;
+        }
+
+        .profile-actions button:nth-child(1),.profile-actions button:nth-child(2) {
+            background: var(--accent-color);
+        }
+
+
+        .profile-actions button:nth-child(3) {
+            background: #2196F3;
+        }
+
+        .profile-actions button:hover {
+            opacity: 0.8;
+        }
+
+        .section{
+            margin: 80px 0px 80px;
+        }
+        .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        }
+
+    .controls {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-primary {
+        background: var(--accent-color);
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background: #45a049;
+    }
+
+    select {
+        padding: 8px;
+        border-radius: 5px;
+        background: var(--primary-dark);
+        color: white;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* Research Cards */
+    .research-grid {
+        display: grid;
+        padding-left: 230px;
+        padding-top: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        width: 700px;
+        gap: 15px;
+    }
+
+    .research-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        position: relative;
+        transition: 0.3s;
+    }
+
+    .research-card:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .research-card h4 {
+        margin-bottom: 5px;
+    }
+
+    .see-more {
+        background: var(--accent-color);
+        border: none;
+        color: white;
+        padding: 7px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .see-more:hover {
+        opacity: 0.8;
+    }
+
+    /* Status Badge */
+    .cert-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--accent-color);
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(5px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background: var(--primary-medium);
+        padding: 30px;
+        border-radius: 10px;
+        width: 500px;
+        max-width: 90%;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .modal-close {
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid rgba(255,255,255,0.2);
+        background: var(--primary-dark);
+        color: white;
+    }
+
+        /* Analytics Section */
+        .analytics {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .analytics table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .analytics th, .analytics td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .analytics th {
+            background: var(--primary-light);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Vertical Navbar -->
+    <nav class="vertical-nav">
+        <div class="nav-logo">
+            <a href="home.html">CampusHive</a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-user"></i>
+            <a href="faculty.html"><span>Dashboard</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-file-alt"></i>
+            <a href="researchf.html"><span>Researches</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-upload"></i>
+            <a href="notes.html"><span>Share Notes</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-users"></i>
+            <a href="mentor.html"><span>Mentorship</span></a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Faculty Profile -->
+        <div class="profile-card">
+            <img src="faculty-image.jpg" alt="Faculty" id="facultyPhoto">
+            <h2 id="facultyName">{Faculty name}</h2>
+            <p id="facultyDesignation">{their designation}</p>
+            <p id="facultyDepartment">{their department}</p>
+            <div class="profile-actions">
+                <button><a href="research.html">Host Research</a></button>
+                <button><a href="hackathons.html">Offer Mentorship</a></button>
+                <button><a href="notes.html">Share Notes</a></button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header">
+                <h3 style="padding-left: 60px;font-size: 30px;">Research Works</h3>
+                <div class="controls">
+                    <button onclick="openModal()" class="btn-primary">+ Add New</button>
+                    <select id="sortResearch">
+                        <option value="latest">Sort: Latest</option>
+                        <option value="oldest">Sort: Oldest</option>
+                    </select>
+                    <select id="filterResearch">
+                        <option value="all">Filter: All</option>
+                        <option value="published">Published</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="submitted">Submitted</option>
+                    </select>
+                    <button class="see-more">See More</button>
+                </div>
+            </div>
+        
+            <div class="research-grid" id="researchGrid">
+                <!-- Research cards will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Add Research Modal -->
+        <div class="modal-overlay" id="researchModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Research Paper</h3>
+                    <span class="modal-close" onclick="closeModal()">&times;</span>
+                </div>
+        
+                <div class="form-group">
+                    <label>Research Title</label>
+                    <input type="text" id="researchTitle" required minlength="3" maxlength="200">
+                    <div class="error-message" id="researchTitleError"></div>
+                </div>
+                <div class="form-group">
+                    <label>Platform and journal of submission</label>
+                    <textarea rows="5" id="researchJournal" required minlength="10" maxlength="500"></textarea>
+                    <div class="error-message" id="researchJournalError"></div>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="researchStatus" required>
+                        <option value="">Select Status</option>
+                        <option>Ongoing</option>
+                        <option>Published</option>
+                        <option>Submitted</option>
+                    </select>
+                    <div class="error-message" id="researchStatusError"></div>
+                </div>
+                <div class="form-group">
+                    <label>Publication Date</label>
+                    <input type="date" id="publicationDate">
+                    <div class="error-message" id="publicationDateError"></div>
+                </div>
+        
+                <button class="btn btn-primary" type="submit" onclick="addResearch()">Add Research Paper</button>
+            </div>
+        </div>
+        
+        <!-- Analytics Section -->
+        <div class="analytics">
+            <h3>Faculty Feedback Analytics</h3>
+            <table>
+                <tr>
+                    <th>Question</th>
+                    <th>5★</th>
+                    <th>4★</th>
+                    <th>3★</th>
+                    <th>2★</th>
+                    <th>1★</th>
+                </tr>
+                <tr>
+                    <td>How effective was the teaching?</td>
+                    <td>30</td>
+                    <td>15</td>
+                    <td>5</td>
+                    <td>2</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>How engaging were the lectures?</td>
+                    <td>28</td>
+                    <td>18</td>
+                    <td>7</td>
+                    <td>3</td>
+                    <td>2</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        // Load faculty data
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const faculty = users.find(u => u.email === currentUser.email);
+            
+            if (faculty) {
+                // Update profile with all available details
+                document.getElementById('facultyName').textContent = faculty.name || '{Faculty name}';
+                
+                // Update designation
+                document.getElementById('facultyDesignation').textContent = 
+                    faculty.designation || faculty.position || '{their designation}';
+                
+                // Update department
+                document.getElementById('facultyDepartment').textContent = 
+                    faculty.department || '{their department}';
+                
+                // Update photo if available
+                if (faculty.photo) {
+                    document.getElementById('facultyPhoto').src = faculty.photo;
+                }
+                
+                // Load researches
+                loadResearches();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        function openModal() {
+            document.getElementById("researchModal").style.display = "flex";
+        }
+    
+        function closeModal() {
+            document.getElementById("researchModal").style.display = "none";
+        }
+    
+        function addResearch() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const research = {
+                id: Date.now().toString(),
+                title: document.getElementById('researchTitle').value,
+                journal: document.getElementById('researchJournal').value,
+                status: document.getElementById('researchStatus').value,
+                date: document.getElementById('publicationDate').value || new Date().toISOString(),
+                author: currentUser.email
+            };
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Find the current user in the users array
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            
+            if (userIndex !== -1) {
+                // Initialize researches array if it doesn't exist
+                if (!users[userIndex].researches) {
+                    users[userIndex].researches = [];
+                }
+                
+                // Add new research to the beginning of the array
+                users[userIndex].researches.unshift(research);
+                
+                // Save updated users array back to localStorage
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                // Also maintain a separate researches collection for easy access
+                const allResearches = JSON.parse(localStorage.getItem('facultyResearches')) || [];
+                allResearches.unshift(research);
+                localStorage.setItem('facultyResearches', JSON.stringify(allResearches));
+            }
+            
+            alert("Research Paper Added!");
+            closeModal();
+            loadResearches();
+        }
+
+        // Load researches
+        function loadResearches() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) return;
+            
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.email === currentUser.email);
+            
+            let researches = [];
+            
+            if (user && user.researches) {
+                researches = user.researches;
+            } else {
+                // Fallback to global researches filtered by author
+                const allResearches = JSON.parse(localStorage.getItem('facultyResearches')) || [];
+                researches = allResearches.filter(res => res.author === currentUser.email);
+            }
+            
+            const grid = document.getElementById('researchGrid');
+            grid.innerHTML = '';
+            
+            if (researches.length === 0) {
+                grid.innerHTML = '<p>No researches yet. Add your first research paper!</p>';
+                return;
+            }
+            
+            researches.forEach(research => {
+                const card = document.createElement('div');
+                card.className = 'research-card';
+                card.innerHTML = `
+                    <div class="cert-badge">${research.status}</div>
+                    <h4>${research.title}</h4>
+                    <p>${research.journal}</p>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>

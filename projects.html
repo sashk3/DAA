@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | CampusHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dekko&family=Delius&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-medium: #1a3a6a;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-medium));
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Vertical Navbar */
+        .vertical-nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: rgba(10, 31, 61, 0.9);
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-logo a {
+            font-family: 'Delius', cursive;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-item i {
+            font-family: "Font Awesome 5 Free" !important;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .nav-item span {
+            font-family: 'Dekko', cursive;
+            font-size: 1.1rem;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+        }
+
+        .nav-item a{
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 0 30px 0;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .section-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        select {
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: var(--primary-medium);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 1200px) {
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Project Card */
+        .project-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .project-card p {
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .project-card .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--primary-medium);
+            padding: 30px;
+            border-radius: 10px;
+            width: 500px;
+            max-width: 90%;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Vertical Navbar -->
+    <nav class="vertical-nav">
+        <div class="nav-logo">
+            <a href="home.html"><h2>CampusHive</h2></a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-tachometer-alt"></i>
+            <a href="student.html"><span>Dashboard</span></a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-code"></i>
+            <a href="hackathons.html"><span>Hackathons</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <a href="hostresearch.html"><span>Researches</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <a href="scalendar.html"><span>Calendar</span></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-bell"></i>
+            <a href="notes.html"><span>Notes</span></a>
+        </div>
+    </nav>
+
+    <!-- Modal Structure -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Project</h3>
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label>Project Title</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Technologies (comma separated)</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Project URL (optional)</label>
+                    <input type="url">
+                </div>
+                <button class="btn btn-primary" type="submit">Add Project</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="section-header">
+            <h1>My Projects</h1>
+            <div class="section-controls">
+                <button class="section-btn" onclick="showModal()">
+                    <i class="fas fa-plus"></i> Add New
+                </button>
+                <select>
+                    <option>Filter</option>
+                    <option>Academic</option>
+                    <option>Personal</option>
+                    <option>Ongoing</option>
+                    <option>Completed</option>
+                </select>
+                <select>
+                    <option>Sort</option>
+                    <option>Newest</option>
+                    <option>Oldest</option>
+                    <option>A-Z</option>
+                    <option>Z-A</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="project-grid">
+            <!-- Project Card 1 -->
+            <div class="project-card">
+                <h3>AI Chatbot Development</h3>
+                <p>Developed an intelligent chatbot using Python and NLP that can answer student queries about campus facilities.</p>
+                <div class="badges">
+                    <span class="badge">Python</span>
+                    <span class="badge">NLP</span>
+                    <span class="badge">TensorFlow</span>
+                </div>
+            </div>
+
+            <!-- Project Card 2 -->
+            <div class="project-card">
+                <h3>Campus Navigation App</h3>
+                <p>AR-based indoor navigation system for university buildings with accessibility features.</p>
+                <div class="badges">
+                    <span class="badge">Flutter</span>
+                    <span class="badge">ARCore</span>
+                    <span class="badge">Dart</span>
+                </div>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="project-card">
+                <h3>Library Management System</h3>
+                <p>Digital platform for book tracking, reservations, and inventory management for college library.</p>
+                <div class="badges">
+                    <span class="badge">Java</span>
+                    <span class="badge">Spring Boot</span>
+                    <span class="badge">MySQL</span>
+                </div>
+            </div>
+
+            <!-- Project Card 4 -->
+            <div class="project-card">
+                <h3>Attendance Tracker</h3>
+                <p>Facial recognition system for automated classroom attendance with reporting dashboard.</p>
+                <div class="badges">
+                    <span class="badge">Python</span>
+                    <span class="badge">OpenCV</span>
+                    <span class="badge">React</span>
+                </div>
+            </div>
+
+            <!-- Project Card 5 -->
+            <div class="project-card">
+                <h3>E-Learning Platform</h3>
+                <p>Web application for online course delivery with quiz and assignment submission features.</p>
+                <div class="badges">
+                    <span class="badge">JavaScript</span>
+                    <span class="badge">Node.js</span>
+                    <span class="badge">MongoDB</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Handling
+        function showModal() {
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if(e.target === this) closeModal();
+        });
+
+        // Form submission
+        document.getElementById('projectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would handle the form submission (AJAX call, etc.)
+            alert('Project added successfully!');
+            closeModal();
+            // In a real app, you would add the new project to the grid
+        });
+    </script>
+</body>
+</html>

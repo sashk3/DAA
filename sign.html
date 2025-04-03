@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Hive - Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Delius&family=Dekko&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Roboto", sans-serif;
+      background: linear-gradient(135deg, #005c97, #363795);
+      height: 100vh;
+      display: flex;
+      color: #333;
+    }
+    .logo {
+      color: white;
+      font-size: 35px;
+      margin-top: 30px;
+      margin-left: 50px;
+      font-weight: bold;
+      font-family: "Delius", cursive;
+    }
+    .logo a {
+      text-decoration: none;
+      color: white;
+      font-size: 35px;
+      font-weight: bold;
+      font-family: "Delius", cursive;
+    }
+    .login-container {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      margin-top: 100px;
+      margin-left: 190px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      height: auto;
+      align-self: flex-start;
+      align-items: center;
+      justify-content: center;
+      max-width: 400px;
+      text-align: left;
+    }
+    .login-container h2 {
+      text-align: center;
+      font-family: "Delius", cursive;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .form-group select,
+    .form-group input {
+      width: 93%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #009dff;
+    }
+    .submit-btn {
+      width: 50%;
+      padding: 10px;
+      background: #009dff;
+      margin-left: 100px;
+      border: none;
+      color: white;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .submit-btn:hover {
+      background: #007acc;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .signup-section {
+      padding-top: 40px;
+      text-align: center;
+    }
+    .signup-section a {
+      text-decoration: none;
+      color: #009dff;
+      font-size: 16px;
+      margin-left: 250px;
+      transition: color 0.3s ease-in-out;
+    }
+    .signup-section a:hover {
+      color: #007acc;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo"><a href="home.html">CampusHive</a></div>
+  <div class="login-container">
+    <!-- Stage 1: Role Selection -->
+    <div id="step1">
+      <h2>Sign Up - Step 1</h2>
+      <form id="signup-step1" novalidate>
+        <div class="form-group">
+          <label for="role">Role</label>
+          <select id="role" name="role" required>
+            <option value="">Select Role</option>
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+            <option value="student club">Student Club</option>
+            <option value="admin">Admin</option>
+            <option value="alumni">Alumni</option>
+          </select>
+          <div class="error" id="role-error"></div>
+        </div>
+        <button type="submit" class="submit-btn">Next</button>
+      </form>
+      <div class="signup-section">
+        <a href="login.html">Existing User - Login</a>
+      </div>
+    </div>
+
+    <!-- Stage 2: Role-specific Signup Forms -->
+    <div id="step2" style="display:none;">
+      <h2>Sign Up - Step 2</h2>
+      
+      <!-- Student Signup Form - Substage 2A -->
+      <div id="student-signup-2a" class="role-signup" style="display:none;">
+        <form id="student-form-2a" novalidate>
+          <div class="form-group">
+            <label for="student-name">Full Name</label>
+            <input type="text" id="student-name" name="student-name" required>
+            <div class="error" id="student-name-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="photo">Photo (passport, .jpg/.png/.jpeg)</label>
+            <input type="file" id="photo" name="photo" accept=".jpg,.png,.jpeg" required>
+            <div class="error" id="photo-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="roll-no">Roll Number</label>
+            <input type="text" id="roll-no" name="roll-no" required>
+            <div class="error" id="roll-no-error"></div>
+          </div>
+          <button type="submit" class="submit-btn">Next</button>
+        </form>
+      </div>
+
+      <!-- Student Signup Form - Substage 2B -->
+      <div id="student-signup-2b" class="role-signup" style="display:none;">
+        <form id="student-form-2b" novalidate>
+          <div class="form-group">
+            <label for="cgpa">Current CGPA</label>
+            <input type="text" id="cgpa" name="cgpa" required>
+            <div class="error" id="cgpa-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="student-department">Department</label>
+            <input type="text" id="student-department" name="student-department" required>
+            <div class="error" id="student-department-error"></div>
+          </div>
+          <div class="form-group">
+            <label for="student-sem">Current Semester</label>
+            <input type="number" id/webkit-transition-delay: 0s;
+            -moz-transition-delay: 0s;
+            -o-transition-delay: 0s;
+            transition-delay: 0s;
+            -webkit-transition-duration: 0.2s;
+            -moz-transition-duration: 0.2s;
+            -o-transition-duration: 0.2s;
+            transition-duration: 0.2s;
+            -webkit-transition-property: opacity;
+            -moz-transition-property: opacity;
+            -o-transition-property: opacity;
+            transition-property: opacity;
+            opacity: 0;
+            display: block;
+          }
+          .form-group input:focus,
+          .form-group select:focus {
+            outline: none;
+            border-color: #009dff;
+          }
+          .submit-btn {
+            width: 50%;
+            padding: 10px;
+            background: #009dff;
+            margin-left: 100px;
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+          .submit-btn:hover {
+            background: #007acc;
+          }
+          .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+          }
+          .signup-section {
+            padding-top: 40px;
+            text-align: center;
+          }
+          .signup-section a {
+            text-decoration: none;
+            color: #009dff;
+            font-size: 16px;
+            margin-left: 250px;
+            transition: color 0.3s ease-in-out;
+          }
+          .signup-section a:hover {
+            color: #007acc;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="logo"><a href="home.html">CampusHive</a></div>
+        <div class="login-container">
+          <!-- Stage 1: Role Selection -->
+          <div id="step1">
+            <h2>Sign Up - Step 1</h2>
+            <form id="signup-step1" novalidate>
+              <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role" required>
+                  <option value="">Select Role</option>
+                  <option value="student">Student</option>
+                  <option value="faculty">Faculty</option>
+                  <option value="student club">Student Club</option>
+                  <option value="admin">Admin</option>
+                  <option value="alumni">Alumni</option>
+                </select>
+                <div class="error" id="role-error"></div>
+              </div>
+              <button type="submit" class="submit-btn">Next</button>
+            </form>
+            <div class="signup-section">
+              <a href="login.html">Existing User - Login</a>
+            </div>
+          </div>
+      
+          <!-- Stage 2: Role-specific Signup Forms -->
+          <div id="step2" style="display:none;">
+            <h2>Sign Up - Step 2</h2>
+            
+            <!-- Student Signup Form - Substage 2A -->
+            <div id="student-signup-2a" class="role-signup" style="display:none;">
+              <form id="student-form-2a" novalidate>
+                <div class="form-group">
+                  <label for="student-name">Full Name</label>
+                  <input type="text" id="student-name" name="student-name" required>
+                  <div class="error" id="student-name-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="photo">Photo (passport, .jpg/.png/.jpeg)</label>
+                  <input type="file" id="photo" name="photo" accept=".jpg,.png,.jpeg" required>
+                  <div class="error" id="photo-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="roll-no">Roll Number</label>
+                  <input type="text" id="roll-no" name="roll-no" required>
+                  <div class="error" id="roll-no-error"></div>
+                </div>
+                <button type="submit" class="submit-btn">Next</button>
+              </form>
+            </div>
+      
+            <!-- Student Signup Form - Substage 2B -->
+            <div id="student-signup-2b" class="role-signup" style="display:none;">
+              <form id="student-form-2b" novalidate>
+                <div class="form-group">
+                  <label for="cgpa">Current CGPA</label>
+                  <input type="text" id="cgpa" name="cgpa" required>
+                  <div class="error" id="cgpa-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="student-department">Department</label>
+                  <input type="text" id="student-department" name="student-department" required>
+                  <div class="error" id="student-department-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="student-sem">Current Semester</label>
+                  <input type="number" id="student-sem" name="student-sem" required>
+                  <div class="error" id="student-sem-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="student-year">Expected year of Graduation</label>
+                  <input type="number" id="student-year" name="student-year" required>
+                  <div class="error" id="student-year-error"></div>
+                </div>
+                <button type="submit" class="submit-btn">Next</button>
+              </form>
+            </div>
+      
+            <!-- Faculty Signup Form -->
+            <div id="faculty-signup" class="role-signup" style="display:none;">
+              <form id="faculty-form" novalidate>
+                <div class="form-group">
+                  <label for="faculty-name">Full Name</label>
+                  <input type="text" id="faculty-name" name="faculty-name" required>
+                  <div class="error" id="faculty-name-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="faculty-id">Faculty ID</label>
+                  <input type="text" id="faculty-id" name="faculty-id">
+                </div>
+                <div class="form-group">
+                  <label for="faculty-designation">Designation</label>
+                  <input type="text" id="faculty-designation" name="faculty-designation" required>
+                  <div class="error" id="faculty-designation-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="faculty-department">Department</label>
+                  <input type="text" id="faculty-department" name="faculty-department" required>
+                  <div class="error" id="faculty-department-error"></div>
+                </div>
+                <button type="submit" class="submit-btn">Next</button>
+              </form>
+            </div>
+      
+            <!-- Student Club Signup Form -->
+            <div id="student-club-signup" class="role-signup" style="display:none;">
+              <form id="student-club-form" novalidate>
+                <div class="form-group">
+                  <label for="club-name">Name of the Club</label>
+                  <input type="text" id="club-name" name="club-name" required>
+                  <div class="error" id="club-name-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="Club_Type">Type</label>
+                  <select id="Club_Type" name="Club_Type" required>
+                    <option value="">Select Type</option>
+                    <option value="technical">Technical</option>
+                    <option value="non-Technical">Non-Technical</option>
+                  </select>
+                  <div class="error" id="Club_Type-error"></div>
+                </div>
+                <button type="submit" class="submit-btn">Next</button>
+              </form>
+            </div>
+      
+            <!-- Admin Signup Form -->
+            <div id="admin-signup" class="role-signup" style="display:none;">
+              <form id="admin-form" novalidate>
+                <div class="form-group">
+                  <label for="admin-name">Full Name</label>
+                  <input type="text" id="admin-name" name="admin-name" required>
+                  <div class="error" id="admin-name-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="admin-id">Admin ID</label>
+                  <input type="text" id="admin-id" name="admin-id">
+                </div>
+                <div class="form-group">
+                  <label for="admin-designation">Designation</label>
+                  <input type="text" id="admin-designation" name="admin-designation" required>
+                  <div class="error" id="admin-designation-error"></div>
+                </div>
+                <button type="submit" class="submit-btn">Next</button>
+              </form>
+            </div>
+      
+            <!-- Alumni Signup Form -->
+            <div id="alumni-signup" class="role-signup" style="display:none;">
+              <form id="alumni-form" novalidate>
+                <div class="form-group">
+                  <label for="alumni-name">Full Name</label>
+                  <input type="text" id="alumni-name" name="alumni-name" required>
+                  <div class="error" id="alumni-name-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="alumni-graduation">Graduation Year</label>
+                  <input type="number" id="alumni-graduation" name="alumni-graduation" required>
+                  <div class="error" id="alumni-graduation-error"></div>
+                </div>
+                <div class="form-group">
+                  <label for="alumni-roll">Roll Number</label>
+                  <input type="text" id="alumni-roll" name="alumni-roll" required>
+                  <div class="error" id="alumni-roll-error"></div>
+                </div>
+                <button type="submit" class="submit-btn">Next</button>
+              </form>
+            </div>
+          </div>
+      
+          <!-- Stage 3: Common Signup Details (Email & Password) -->
+          <div id="step3" style="display:none;">
+            <h2>Sign Up - Step 3</h2>
+            <form id="signup-step3" novalidate>
+              <div class="form-group">
+                <label for="common-email">Email</label>
+                <input type="email" id="common-email" name="common-email" required>
+                <div class="error" id="common-email-error"></div>
+              </div>
+              <div class="form-group">
+                <label for="common-password">Password</label>
+                <input type="password" id="common-password" name="common-password" required>
+                <div class="error" id="common-password-error"></div>
+              </div>
+              <button type="submit" class="submit-btn">Sign Up</button>
+            </form>
+          </div>
+        </div>
+      
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            // Initialize users data structure in localStorage if it doesn't exist
+            if (!localStorage.getItem('users')) {
+              localStorage.setItem('users', JSON.stringify([]));
+            }
+      
+            // STEP 1: Role Selection
+            document.getElementById("signup-step1").addEventListener("submit", function (e) {
+              e.preventDefault();
+              document.getElementById("role-error").textContent = "";
+      
+              const role = document.getElementById("role").value;
+              if (role === "") {
+                document.getElementById("role-error").textContent = "Please select a role.";
+              } else {
+                document.getElementById("step1").style.display = "none";
+                document.getElementById("step2").style.display = "block";
+      
+                document.querySelectorAll(".role-signup").forEach(form => form.style.display = "none");
+      
+                const roleId = role.replace(/\s+/g, "-");
+                const formElement = role === "student" 
+                  ? document.getElementById("student-signup-2a")
+                  : document.getElementById(`${roleId}-signup`);
+      
+                if (formElement) {
+                  formElement.style.display = "block";
+                }
+              }
+            });
+      
+            // STEP 2: Role-Specific Details Validation
+            function handleStage2Submit(formId, fieldIds, nextStep = "step3", nextForm = null) {
+              const formElement = document.getElementById(formId);
+              if (!formElement) {
+                console.error(`Error: Form with ID "${formId}" not found.`);
+                return;
+              }
+      
+              formElement.addEventListener("submit", function (e) {
+                e.preventDefault();
+                let valid = true;
+      
+                fieldIds.forEach(function (field) {
+                  const inputField = document.getElementById(field);
+                  if (!inputField) {
+                    console.error(`Error: Input field with ID "${field}" not found.`);
+                    return;
+                  }
+                  const value = field === "photo" ? inputField.files[0] : inputField.value.trim();
+      
+                  // Photo validation
+                  if (field === "photo") {
+                    if (!value) {
+                      document.getElementById("photo-error").textContent = "Please upload a photo.";
+                      valid = false;
+                    } else {
+                      const allowedExtensions = ['jpg', 'jpeg', 'png'];
+                      const fileExtension = value.name.split('.').pop().toLowerCase();
+                      const maxSize = 5 * 1024 * 1024; // 5MB limit
+      
+                      if (!allowedExtensions.includes(fileExtension)) {
+                        document.getElementById("photo-error").textContent = "Only .jpg, .jpeg, or .png files are allowed.";
+                        valid = false;
+                      } else if (value.size > maxSize) {
+                        document.getElementById("photo-error").textContent = "File size must be less than 5MB.";
+                        valid = false;
+                      } else {
+                        document.getElementById("photo-error").textContent = "";
+                      }
+                    }
+                  }
+                  // CGPA validation
+                  else if (field === "cgpa") {
+                    const cgpaValue = parseFloat(value);
+                    if (isNaN(cgpaValue)) {
+                      document.getElementById("cgpa-error").textContent = "CGPA must be a number";
+                      valid = false;
+                    } else if (cgpaValue < 0 || cgpaValue > 10) {
+                      document.getElementById("cgpa-error").textContent = "CGPA must be between 0 and 10";
+                      valid = false;
+                    } else {
+                      document.getElementById("cgpa-error").textContent = "";
+                    }
+                  }
+                  // Standard required field validation
+                  else if (value === "") {
+                    document.getElementById(field + "-error").textContent = "This field is required.";
+                    valid = false;
+                  } else {
+                    document.getElementById(field + "-error").textContent = "";
+                  }
+                });
+      
+                if (valid) {
+                  document.querySelectorAll(".role-signup").forEach(form => form.style.display = "none");
+                  if (nextForm) {
+                    document.getElementById(nextForm).style.display = "block";
+                  } else {
+                    document.getElementById("step2").style.display = "none";
+                    document.getElementById(nextStep).style.display = "block";
+                  }
+                }
+              });
+            }
+      
+            // Student form split into 2 substages
+            handleStage2Submit("student-form-2a", ["student-name", "photo", "roll-no"], "step2", "student-signup-2b");
+            handleStage2Submit("student-form-2b", ["cgpa", "student-department", "student-sem", "student-year"]);
+            handleStage2Submit("faculty-form", ["faculty-name", "faculty-designation", "faculty-department"]);
+            handleStage2Submit("student-club-form", ["club-name", "Club_Type"]);
+            handleStage2Submit("admin-form", ["admin-name", "admin-designation"]);
+            handleStage2Submit("alumni-form", ["alumni-name", "alumni-graduation", "alumni-roll"]);
+      
+            // STEP 3: Email & Password Validation & Signup Process
+            const signupForm = document.getElementById("signup-step3");
+            if (signupForm) {
+              signupForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+      
+                document.getElementById("common-email-error").textContent = "";
+                document.getElementById("common-password-error").textContent = "";
+      
+                let valid = true;
+                const role = document.getElementById("role").value;
+                const email = document.getElementById("common-email").value.trim();
+                const password = document.getElementById("common-password").value.trim();
+      
+                // Email validation
+                if (email === "") {
+                  document.getElementById("common-email-error").textContent = "Please enter your email.";
+                  valid = false;
+                } else {
+                  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                  if (!emailRegex.test(email)) {
+                    document.getElementById("common-email-error").textContent = "Please enter a valid email.";
+                    valid = false;
+                  }
+                }
+      
+                // Password validation
+                if (password === "") {
+                  document.getElementById("common-password-error").textContent = "Please enter your password.";
+                  valid = false;
+                }
+      
+                if (valid) {
+                  let users = JSON.parse(localStorage.getItem("users")) || [];
+      
+                  // Check if email is already registered
+                  if (users.some(user => user.email === email)) {
+                    alert("Email already registered! Please use a different email.");
+                    return;
+                  }
+      
+                  // Collect all user data
+                  const userData = {
+                    role: role,
+                    email: email,
+                    password: password,
+                    createdAt: new Date().toISOString(),
+                    details: {}
+                  };
+      
+                  // Collect role-specific details
+                  switch(role) {
+                    case 'student':
+                      const photoFile = document.getElementById("photo").files[0];
+                      let photoDataUrl = "";
+                      if (photoFile) {
+                        const reader = new FileReader();
+                        reader.onload = function() {
+                          photoDataUrl = reader.result;
+                          userData.details = {
+                            name: document.getElementById("student-name").value.trim(),
+                            photo: photoDataUrl,
+                            rollNo: document.getElementById("roll-no").value.trim(),
+                            cgpa: parseFloat(document.getElementById("cgpa").value.trim()),
+                            department: document.getElementById("student-department").value.trim(),
+                            semester: document.getElementById("student-sem").value.trim(),
+                            graduationYear: document.getElementById("student-year").value.trim()
+                          };
+                          saveUserData(users, userData);
+                        };
+                        reader.onerror = function() {
+                          document.getElementById("photo-error").textContent = "Error reading the file. Please try again.";
+                        };
+                        reader.readAsDataURL(photoFile);
+                        return; // Wait for the file reader to complete
+                      }
+                      break;
+                    case 'faculty':
+                      userData.details = {
+                        name: document.getElementById("faculty-name").value.trim(),
+                        facultyId: document.getElementById("faculty-id").value.trim(),
+                        designation: document.getElementById("faculty-designation").value.trim(),
+                        department: document.getElementById("faculty-department").value.trim()
+                      };
+                      break;
+                    case 'student club':
+                      userData.details = {
+                        clubName: document.getElementById("club-name").value.trim(),
+                        clubType: document.getElementById("Club_Type").value.trim()
+                      };
+                      break;
+                    case 'admin':
+                      userData.details = {
+                        name: document.getElementById("admin-name").value.trim(),
+                        adminId: document.getElementById("admin-id").value.trim(),
+                        designation: document.getElementById("admin-designation").value.trim()
+                      };
+                      break;
+                    case 'alumni':
+                      userData.details = {
+                        name: document.getElementById("alumni-name").value.trim(),
+                        graduationYear: document.getElementById("alumni-graduation").value.trim(),
+                        rollNo: document.getElementById("alumni-roll").value.trim()
+                      };
+                      break;
+                  }
+      
+                  saveUserData(users, userData);
+                }
+              });
+            } else {
+              console.error("Error: signup-step3 form not found.");
+            }
+      
+            // Helper function to save user data and redirect
+            function saveUserData(users, userData) {
+              users.push(userData);
+              localStorage.setItem("users", JSON.stringify(users));
+      
+              localStorage.setItem("currentUser", JSON.stringify({
+                email: userData.email,
+                role: userData.role,
+                loggedIn: true,
+                lastLogin: new Date().toISOString()
+              }));
+      
+              alert("Signup successful! Redirecting to dashboard...");
+              setTimeout(() => {
+                window.location.href = "dashboard.html";
+              }, 500);
+            }
+          });
+      
+          // Helper function to get current user data
+          function getCurrentUser() {
+            const user = JSON.parse(localStorage.getItem("currentUser"));
+            if (user && user.loggedIn) {
+              const allUsers = JSON.parse(localStorage.getItem("users")) || [];
+              return allUsers.find(u => u.email === user.email);
+            }
+            return null;
+          }
+      
+          // Helper function to get all users
+          function getAllUsers() {
+            return JSON.parse(localStorage.getItem("users")) || [];
+          }
+        </script>
+      </body>
+      </html>

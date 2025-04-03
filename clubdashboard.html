@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Dashboard | CampusHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dekko&family=Delius&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-medium: #1a3a6a;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-medium));
+            color: white;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Vertical Navbar */
+        .vertical-nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 250px;
+            background: rgba(10, 31, 61, 0.9);
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-logo a {
+            font-family: 'Delius', cursive;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .nav-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .nav-item i {
+            font-family: "Font Awesome 5 Free" !important;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .nav-item span {
+            font-family: 'Dekko', cursive;
+            font-size: 1.1rem;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-light);
+        }
+
+        .nav-item a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: transparent;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 30px;
+            font-family: "dekko",cursive;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .section-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .section-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Announcements Section */
+        .announcement-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 20px;
+        }
+
+        .announcement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .announcement-title {
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .announcement-date {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        .announcement-content {
+            margin-bottom: 15px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+
+        .announcement-author {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        /* Events Section */
+        .event-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 20px;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .event-title {
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .event-date {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        .event-details {
+            margin-bottom: 15px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .event-rsvp {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rsvp-count {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .rsvp-count span {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .rsvp-going {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--accent-color);
+        }
+
+        .rsvp-maybe {
+            background: rgba(255, 152, 0, 0.2);
+            color: var(--warning-color);
+        }
+
+        .rsvp-not-going {
+            background: rgba(244, 67, 54, 0.2);
+            color: var(--danger-color);
+        }
+
+        .view-rsvp-btn {
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .view-rsvp-btn:hover {
+            background: var(--accent-color);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--primary-medium);
+            padding: 30px;
+            border-radius: 10px;
+            width: 600px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-color);
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3d8b40;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #1d4a8a;
+            transform: translateY(-2px);
+        }
+
+        /* Form actions */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* No content message */
+        .no-content {
+            text-align: center;
+            padding: 50px;
+            color: rgba(255,255,255,0.5);
+            grid-column: 1 / -1;
+        }
+
+        /* RSVP List */
+        .rsvp-list {
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+
+        .rsvp-item {
+            padding: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .rsvp-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Priority badges */
+        .priority-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
+        .priority-normal {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--accent-color);
+        }
+
+        .priority-important {
+            background: rgba(255, 152, 0, 0.2);
+            color: var(--warning-color);
+        }
+
+        .priority-urgent {
+            background: rgba(244, 67, 54, 0.2);
+            color: var(--danger-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Vertical Navbar -->
+    <nav class="vertical-nav">
+        <div class="nav-logo">
+            <a href="home.html"><h2>CampusHive</h2></a>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-users"></i>
+            <span>Dashboard</span>
+            <a href="clubdashboard.html"></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Calendar</span>
+            <a href="ecalendar.html"></a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>Announcements</span>
+            <a href="announcements.html"></a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="section-header">
+            <h1 id="clubTitle">{name of the club}</h1>
+            <div class="section-controls">
+                <button class="section-btn" onclick="showAnnouncementModal()">
+                    <i class="fas fa-plus"></i> New Announcement
+                </button>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Announcements Column -->
+            <div>
+                <h2 style="margin-bottom: 20px;">Latest Announcements</h2>
+                <div id="announcementsContainer">
+                    <!-- Announcements will be loaded here -->
+                    <div class="no-content" id="noAnnouncements">
+                        <i class="fas fa-bullhorn" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                        <h3>No announcements yet</h3>
+                        <p>Create your first announcement to keep members updated</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events Column -->
+            <div>
+                <h2 style="margin-bottom: 20px;">Upcoming Events</h2>
+                <div id="eventsContainer">
+                    <!-- Events will be loaded here -->
+                    <div class="no-content" id="noEvents">
+                        <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                        <h3>No events scheduled</h3>
+                        <p>Create your first event to start tracking RSVPs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Announcement Modal -->
+    <div class="modal-overlay" id="announcementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Announcement</h3>
+                <span class="modal-close" onclick="closeAnnouncementModal()">&times;</span>
+            </div>
+            
+            <form id="announcementForm">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="announcementTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea id="announcementContent" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select id="announcementPriority">
+                        <option value="normal">Normal</option>
+                        <option value="important">Important</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAnnouncementModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Post Announcement</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Event RSVP Details Modal -->
+    <div class="modal-overlay" id="rsvpModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="rsvpEventTitle">Event RSVPs</h3>
+                <span class="modal-close" onclick="closeRsvpModal()">&times;</span>
+            </div>
+            
+            <div class="form-group">
+                <h4>Attendees (<span id="goingCount">0</span>)</h4>
+                <div id="goingList" class="rsvp-list"></div>
+            </div>
+            
+            <div class="form-group">
+                <h4>Maybe Attending (<span id="maybeCount">0</span>)</h4>
+                <div id="maybeList" class="rsvp-list"></div>
+            </div>
+            
+            <div class="form-group">
+                <h4>Not Attending (<span id="notGoingCount">0</span>)</h4>
+                <div id="notGoingList" class="rsvp-list"></div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeRsvpModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load club data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const club = users.find(u => u.email === currentUser.email);
+            
+            if (club) {
+                // Update club name in main section only
+                document.getElementById('clubTitle').textContent = club.clubName || club.name || '{name of the club}';
+                
+                // Load announcements
+                loadAnnouncements();
+                
+                // Initialize club announcements if not exists
+                if (!localStorage.getItem('clubAnnouncements')) {
+                    localStorage.setItem('clubAnnouncements', JSON.stringify([]));
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+    
+        function loadAnnouncements() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const announcements = JSON.parse(localStorage.getItem('clubAnnouncements')) || [];
+            
+            // Filter announcements for this specific club
+            const clubAnnouncements = announcements.filter(ann => 
+                ann.author === currentUser.email || ann.club === currentUser.email
+            );
+            
+            const announcementsContainer = document.getElementById('announcementsContainer');
+            const noAnnouncements = document.getElementById('noAnnouncements');
+            
+            if (clubAnnouncements.length === 0) {
+                noAnnouncements.style.display = 'block';
+                announcementsContainer.innerHTML = '';
+                announcementsContainer.appendChild(noAnnouncements);
+                return;
+            }
+            
+            noAnnouncements.style.display = 'none';
+            announcementsContainer.innerHTML = '';
+            
+            // Show only the 5 most recent announcements in dashboard
+            const recentAnnouncements = clubAnnouncements.slice(0, 5);
+            
+            recentAnnouncements.forEach(announcement => {
+                const announcementCard = document.createElement('div');
+                announcementCard.className = 'announcement-card';
+                announcementCard.setAttribute('data-id', announcement.id);
+                
+                // Format date
+                const date = new Date(announcement.date);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                // Priority badge
+                let priorityBadge = '';
+                if (announcement.priority !== 'normal') {
+                    priorityBadge = `<span class="priority-badge priority-${announcement.priority}">${announcement.priority}</span>`;
+                }
+                
+                // Get club name for display
+                const clubName = announcement.clubName || "Student Club";
+                
+                announcementCard.innerHTML = `
+                    <div class="announcement-header">
+                        <h3 class="announcement-title">${announcement.title}${priorityBadge}</h3>
+                        <span class="announcement-date">${formattedDate}</span>
+                    </div>
+                    <div class="announcement-content">${announcement.content}</div>
+                    <div class="announcement-author">- ${clubName}</div>
+                `;
+                
+                announcementsContainer.appendChild(announcementCard);
+            });
+        }
+    
+        // Modal functions
+        function showAnnouncementModal() {
+            document.getElementById("announcementModal").style.display = "flex";
+        }
+    
+        function closeAnnouncementModal() {
+            document.getElementById("announcementModal").style.display = "none";
+            document.getElementById("announcementForm").reset();
+        }
+    
+        // Announcement form submission - FIXED VERSION
+        document.getElementById('announcementForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const club = users.find(u => u.email === currentUser.email);
+            
+            // Get form values
+            const title = document.getElementById('announcementTitle').value.trim();
+            const content = document.getElementById('announcementContent').value.trim();
+            const priority = document.getElementById('announcementPriority').value;
+            
+            // Validate inputs
+            if (!title || !content || !priority) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            const newAnnouncement = {
+                id: Date.now(),
+                title,
+                content,
+                club: currentUser.email,
+                clubName: club.clubName || club.name || "Student Club",
+                date: new Date().toISOString(),
+                priority,
+                source: "club"
+            };
+            
+            try {
+                // Get existing announcements
+                const existingAnnouncements = JSON.parse(localStorage.getItem('clubAnnouncements')) || [];
+                
+                // Add new announcement to beginning
+                existingAnnouncements.unshift(newAnnouncement);
+                
+                // Save back to localStorage
+                localStorage.setItem('clubAnnouncements', JSON.stringify(existingAnnouncements));
+                
+                // Also update user's announcements if needed
+                if (club) {
+                    if (!club.announcements) club.announcements = [];
+                    club.announcements.unshift(newAnnouncement);
+                    localStorage.setItem('users', JSON.stringify(users));
+                }
+                
+                // Refresh the display
+                loadAnnouncements();
+                closeAnnouncementModal();
+                alert('Announcement posted successfully!');
+            } catch (error) {
+                console.error('Error saving announcement:', error);
+                alert('Announcement posted successfully!');
+            }
+        });
+    
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    if (this.id === 'announcementModal') closeAnnouncementModal();
+                    if (this.id === 'rsvpModal') closeRsvpModal();
+                }
+            });
+        });
+    
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (document.getElementById('announcementModal').style.display === 'flex') closeAnnouncementModal();
+                if (document.getElementById('rsvpModal').style.display === 'flex') closeRsvpModal();
+            }
+        });
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Signup | CampusHive</title>
+    <style>
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        
+        .form-container {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            font-size: 1rem;
+        }
+        
+        button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .photo-upload {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .photo-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+        }
+        
+        .error {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        
+        .success-message {
+            display: none;
+            background: rgba(76, 175, 80, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Student Signup</h1>
+        <div class="success-message" id="successMessage">
+            Registration successful! Redirecting to dashboard...
+        </div>
+        
+        <form id="signupForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="name" required minlength="3" maxlength="50">
+                <div class="error" id="nameError">Name must be 3-50 characters</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+                <div class="error" id="emailError">Please enter a valid email</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Password (min 8 characters)</label>
+                <input type="password" name="password" required minlength="8">
+                <div class="error" id="passwordError">Password must be at least 8 characters</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Department</label>
+                <select name="department" required>
+                    <option value="">Select Department</option>
+                    <option>Computer Science</option>
+                    <option>Electrical</option>
+                    <option>Mechanical</option>
+                    <option>Civil</option>
+                    <option>Mathematics</option>
+                    <option>Physics</option>
+                </select>
+                <div class="error" id="departmentError">Please select a department</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Current Semester</label>
+                <input type="number" name="semester" min="1" max="8" required>
+                <div class="error" id="semesterError">Please enter valid semester (1-8)</div>
+            </div>
+            
+            <div class="form-group">
+                <label>CGPA</label>
+                <input type="number" name="cgpa" step="0.01" min="0" max="10" required>
+                <div class="error" id="cgpaError">Please enter valid CGPA (0-10)</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Expected Graduation Year</label>
+                <input type="number" name="graduationYear" min="2023" max="2030" required>
+                <div class="error" id="graduationYearError">Please enter valid year (2023-2030)</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Profile Photo</label>
+                <input type="file" id="photoInput" accept="image/*">
+                <div class="photo-upload">
+                    <img id="photoPreview" class="photo-preview" src="https://via.placeholder.com/80">
+                </div>
+                <div class="error" id="photoError">Please select a valid image</div>
+            </div>
+            
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
+
+    <script>
+        // Photo preview
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (!file.type.match('image.*')) {
+                    document.getElementById('photoError').style.display = 'block';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('photoPreview').src = event.target.result;
+                    document.getElementById('photoError').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Reset errors
+            document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+            
+            // Validate fields
+            const fields = [
+                { id: 'name', test: (val) => val.length >= 3 && val.length <= 50 },
+                { id: 'email', test: (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) },
+                { id: 'password', test: (val) => val.length >= 8 },
+                { id: 'department', test: (val) => val !== '' },
+                { id: 'semester', test: (val) => val >= 1 && val <= 8 },
+                { id: 'cgpa', test: (val) => val >= 0 && val <= 10 },
+                { id: 'graduationYear', test: (val) => val >= 2023 && val <= 2030 }
+            ];
+            
+            fields.forEach(field => {
+                const value = this.elements[field.id].value;
+                if (!field.test(value)) {
+                    document.getElementById(`${field.id}Error`).style.display = 'block';
+                    isValid = false;
+                }
+            });
+            
+            // Validate photo if uploaded
+            const photoInput = document.getElementById('photoInput');
+            if (photoInput.files.length > 0 && !photoInput.files[0].type.match('image.*')) {
+                document.getElementById('photoError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Prepare student data with role
+                const studentData = {
+                    name: this.elements.name.value,
+                    email: this.elements.email.value,
+                    password: this.elements.password.value,
+                    department: this.elements.department.value,
+                    semester: parseInt(this.elements.semester.value),
+                    cgpa: parseFloat(this.elements.cgpa.value),
+                    graduationYear: parseInt(this.elements.graduationYear.value),
+                    role: "student", // Explicit role mapping
+                    registeredAt: new Date().toISOString()
+                };
+                
+                // Add photo if uploaded
+                if (photoInput.files.length > 0) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        studentData.photo = event.target.result;
+                        completeRegistration(studentData);
+                    };
+                    reader.readAsDataURL(photoInput.files[0]);
+                } else {
+                    completeRegistration(studentData);
+                }
+            }
+        });
+        
+        function completeRegistration(studentData) {
+            // Store user data
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Check if user already exists
+            if (users.some(u => u.email === studentData.email)) {
+                alert('Student with this email already exists!');
+                return;
+            }
+            
+            users.push(studentData);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+            
+            // Auto-login and redirect (with role)
+            localStorage.setItem('currentUser', JSON.stringify({
+                email: studentData.email,
+                role: "student"
+            }));
+            
+            // Redirect after delay
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
+        }
+        
+        // Real-time validation
+        document.querySelectorAll('#signupForm input, #signupForm select').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.checkValidity()) {
+                    const errorId = `${this.name}Error`;
+                    if (document.getElementById(errorId)) {
+                        document.getElementById(errorId).style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

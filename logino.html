@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Hive - Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Including Delius and Dekko fonts for consistency -->
+  <link href="https://fonts.googleapis.com/css2?family=Delius&family=Dekko&display=swap" rel="stylesheet">
+  <style>
+    /* Use the same background gradient from before */
+    body {
+      margin: 0;
+      font-family: "Roboto", sans-serif;
+      background: linear-gradient(135deg, #005c97, #363795);
+      height: 100vh;
+      display: flex;
+      color: #333;
+    }
+    .logo {
+            color: white;
+            font-size: 35px;
+            margin-top: 30px;
+            margin-left: 50px;
+            font-weight: bold;
+            font-family: "Delius", cursive; /* Applied Delius font */
+        }
+        .logo a {
+    text-decoration: none;  /* Removes underline */
+    color: white;           /* Ensures the text remains white */
+    font-size: 35px;
+    font-weight: bold;
+    font-family: "Delius", cursive; /* Consistency with your existing font */
+}
+
+    /* Centered login container with translucent mask */
+    .login-container {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      margin-top: 60px;
+      margin-left: 190px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      height: 420px;
+      align-items: center;
+      justify-content: center;
+      max-width: 400px;
+      text-align: left;
+    }
+    .login-container h2 {
+      text-align: center;
+      font-family: "Delius", cursive;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .form-group select,
+    .form-group input {
+      width: 93%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #009dff;
+    }
+    .submit-btn {
+      width: 50%;
+      padding: 10px;
+      background: #009dff;
+      margin-left: 100px;
+      border: none;
+      color: white;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .submit-btn:hover {
+      background: #007acc;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    /* New User Signup link styling */
+    .signup-section {
+      padding-top: 15px;
+      text-align: center;
+    }
+    .signup-section a {
+      text-decoration: none;
+      color: #009dff;
+      font-size: 16px;
+      margin-left: 250px;
+      transition: color 0.3s ease-in-out;
+    }
+    .signup-section a:hover {
+      color: #007acc;
+    }
+  </style>
+</head>
+<body>
+    <div class="logo"><a href="home.html">CampusHive</a></div>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="login-form" novalidate>
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+          <option value="">Select Role</option>
+          <option value="student">Student</option>
+          <option value="faculty">Faculty</option>
+          <option value="student club">Student Club</option>
+          <option value="admin">Admin</option>
+          <option value="alumni">Alumni</option>
+        </select>
+        <div class="error" id="role-error"></div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <div class="error" id="email-error"></div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <div class="error" id="password-error"></div>
+      </div>
+      <button type="submit" class="submit-btn">Login</button>
+    </form>
+    <div class="signup-section">
+      <a href="signup.html">New User Signup</a>
+    </div>
+  </div>
+  <script>
+    document.getElementById("login-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+  
+      // Clear error messages
+      document.getElementById("role-error").textContent = "";
+      document.getElementById("email-error").textContent = "";
+      document.getElementById("password-error").textContent = "";
+  
+      let valid = true;
+      const role = document.getElementById("role").value;
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+  
+      // Validate role selection
+      if (role === "") {
+        document.getElementById("role-error").textContent = "Please select a role.";
+        valid = false;
+      }
+  
+      // Validate email
+      if (email === "") {
+        document.getElementById("email-error").textContent = "Please enter your email.";
+        valid = false;
+      } else {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          document.getElementById("email-error").textContent = "Please enter a valid email.";
+          valid = false;
+        }
+      }
+  
+      // Validate password
+      if (password === "") {
+        document.getElementById("password-error").textContent = "Please enter your password.";
+        valid = false;
+      }
+  
+      if (valid) {
+        // 🔹 Retrieve stored users from localStorage
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+  
+        // 🔹 Find matching user
+        const foundUser = users.find(user => user.role === role && user.email === email && user.password === password);
+  
+        if (foundUser) {
+          alert("Login successful!");
+          // Store session details (optional)
+          localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+  
+          // Redirect to the dashboard (Change URL as needed)
+          window.location.href = "student.html";
+        } else {
+          alert("Invalid credentials! Please check your role, email, and password.");
+        }
+      }
+    });
+  </script>
+</body>  
+  

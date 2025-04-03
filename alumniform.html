@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Registration | CampusHive</title>
+    <style>
+        :root {
+            --primary-dark: #0a1f3d;
+            --primary-light: #2a5a9a;
+            --accent-color: #4CAF50;
+            --gold-accent: #FFD700;
+        }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--gold-accent);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--gold-accent);
+            font-size: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--gold-accent);
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+        }
+        
+        button {
+            background: var(--gold-accent);
+            color: var(--primary-dark);
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .error {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        
+        .success-message {
+            display: none;
+            background: rgba(255, 215, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+            border: 1px solid var(--gold-accent);
+        }
+        
+        .alumni-photo-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--gold-accent);
+            margin: 0 auto;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        .optional-tag {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Alumni Registration</h1>
+        <div class="success-message" id="successMessage">
+            Registration successful! Welcome back to campus!
+        </div>
+        
+        <form id="signupForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="name" required minlength="3" maxlength="50">
+                <div class="error" id="nameError">Please enter a valid name (3-50 characters)</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" required>
+                <div class="error" id="emailError">Please enter a valid email</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Password (min 8 characters)</label>
+                <input type="password" name="password" required minlength="8">
+                <div class="error" id="passwordError">Password must be at least 8 characters</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Roll Number</label>
+                <input type="text" name="rollNo">
+                <div class="error" id="rollNoError">Must be 8-12 alphanumeric characters</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Graduation Year</label>
+                <input type="number" name="graduatedYear" min="1950" max="2023" required>
+                <div class="error" id="graduatedYearError">Please enter valid graduation year</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Degree Program</label>
+                <select name="degree" required>
+                    <option value="">Select Degree</option>
+                    <option>BTech Computer Science</option>
+                    <option>BTech Electrical</option>
+                    <option>BTech Mechanical</option>
+                    <option>BTech Civil</option>
+                    <option>BSc Physics</option>
+                    <option>BSc Mathematics</option>
+                    <option>MBA</option>
+                    <option>MTech</option>
+                </select>
+                <div class="error" id="degreeError">Please select your degree</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Current Company <span class="optional-tag">(Optional)</span></label>
+                <input type="text" name="currentCompany" maxlength="50">
+            </div>
+            
+            <div class="form-group">
+                <label>Position <span class="optional-tag">(Optional)</span></label>
+                <input type="text" name="position" maxlength="50">
+            </div>
+            
+            <div class="form-group">
+                <label>Profile Photo</label>
+                <input type="file" id="alumniPhoto" accept="image/*">
+                <img id="alumniPhotoPreview" class="alumni-photo-preview" src="https://via.placeholder.com/120">
+                <div class="error" id="photoError">Please select a valid image</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Bio <span class="optional-tag">(Optional)</span></label>
+                <textarea name="bio" rows="3" maxlength="300"></textarea>
+            </div>
+            
+            <button type="submit">Register as Alumni</button>
+        </form>
+    </div>
+
+    <script>
+        // Photo Preview
+        document.getElementById('alumniPhoto').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (!file.type.match('image.*')) {
+                    document.getElementById('photoError').style.display = 'block';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('alumniPhotoPreview').src = event.target.result;
+                    document.getElementById('photoError').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form Validation and Submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Reset errors
+            document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+            
+            // Validate required fields
+            const requiredFields = [
+                { id: 'name', test: (val) => val.length >= 3 && val.length <= 50 },
+                { id: 'email', test: (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) },
+                { id: 'password', test: (val) => val.length >= 8 },
+                { id: 'graduatedYear', test: (val) => val >= 1950 && val <= 2030 },
+                { id: 'degree', test: (val) => val !== '' }
+            ];
+            
+            requiredFields.forEach(field => {
+                const value = this.elements[field.id].value;
+                if (!field.test(value)) {
+                    document.getElementById(`${field.id}Error`).style.display = 'block';
+                    isValid = false;
+                }
+            });
+            
+            // Validate photo if uploaded
+            const photoInput = document.getElementById('alumniPhoto');
+            if (photoInput.files.length > 0 && !photoInput.files[0].type.match('image.*')) {
+                document.getElementById('photoError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Prepare alumni data
+                const alumniData = {
+                    name: this.elements.name.value,
+                    email: this.elements.email.value,
+                    password: this.elements.password.value,
+                    rollNo: this.elements.rollNo.value,
+                    graduatedYear: this.elements.graduatedYear.value,
+                    degree: this.elements.degree.value,
+                    role: "alumni", // Role mapping
+                    currentCompany: this.elements.currentCompany.value || null,
+                    position: this.elements.position.value || null,
+                    bio: this.elements.bio.value || null,
+                    registeredAt: new Date().toISOString()
+                };
+                
+                // Add photo if uploaded
+                if (photoInput.files.length > 0) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        alumniData.photo = event.target.result;
+                        completeRegistration(alumniData);
+                    };
+                    reader.readAsDataURL(photoInput.files[0]);
+                } else {
+                    completeRegistration(alumniData);
+                }
+            }
+        });
+        
+        function completeRegistration(alumniData) {
+            // Store in localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Check if email already exists
+            if (users.some(u => u.email === alumniData.email)) {
+                alert('Alumni with this email already exists!');
+                return;
+            }
+            
+            // Check if roll number exists
+            if (users.some(u => u.rollNo === alumniData.rollNo)) {
+                alert('This roll number is already registered!');
+                return;
+            }
+            
+            users.push(alumniData);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+            
+            // Auto-login and redirect
+            localStorage.setItem('currentUser', JSON.stringify({
+                email: alumniData.email,
+                role: "alumni"
+            }));
+            
+            // Redirect after delay
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000);
+        }
+        
+        // Real-time validation
+        document.querySelectorAll('#signupForm input, #signupForm select, #signupForm textarea').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.checkValidity()) {
+                    const errorId = `${this.name}Error`;
+                    if (document.getElementById(errorId)) {
+                        document.getElementById(errorId).style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

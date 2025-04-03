@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dekko&family=Delius&display=swap" rel="stylesheet">
+    <title>Campus Hive</title>
+    <style>
+        /* Add this new CSS for sections and background */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #005c97, #363795);
+            z-index: -1;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Adjust existing body CSS */
+        body {
+            margin: 0;
+            font-family: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        /* Keep all your original CSS below */
+        .navbar {
+            position: fixed; /* Changed to fixed */
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #333;
+            padding: 18px 25px;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            color: white;
+            font-size: 35px;
+            margin-left: 50px;
+            font-weight: bold;
+            font-family: "Delius", cursive; /* Applied Delius font */
+        }
+        .nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    margin-right: 60px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    position: relative;
+    font-family: "Dekko", cursive;
+    padding: 8px 12px;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    width: 0; /* Initially no underline */
+    height: 2px;
+    background: #009dff;
+    transition: width 0.6s ease-in-out;
+}
+
+.nav-links a:hover::after {
+    width: 100%; /* Expands smoothly on hover */
+}
+
+/* Active Section Underline */
+.nav-links a.active::after {
+    width: 100%; /* Keeps the underline only on the active section */
+}
+
+/* JavaScript will dynamically add 'active' to the current section */
+
+        .get-started {
+            background: #009dff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 16px;
+            margin-left: 10px;
+            font-family: "Dekko", cursive; /* Applied Delius font */
+        }
+        .title {
+            font-size: 60px;
+            color:white;
+            font-weight: bold;
+            margin: 20px 0;
+            font-family: "Delius", cursive; /* Applied Delius font */
+        }
+        .description {
+            font-size: 24px;
+            color:white;
+            max-width: 600px;
+            font-family: "Delius", cursive;
+        }
+
+        /* New separate classes for about and contact sections */
+        .about-container {
+            width: 600px;
+            padding: 40px;
+            margin-left: 80px;
+            background: white; /* Changed to white */
+            border-radius: 50px;
+            margin-top: 60px;
+            color: black; /* Text color changed to black */
+        }
+        
+        .about-container .title{
+            color: black;
+            font-size: 28px; /* Ensure title and description are black */
+        }
+        .about-container .descriptio {
+            color: black;
+            font-size: 20px;
+ /* Ensure title and description are black */
+        }
+
+        .contact-container {
+            width: 500px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-top: 60px;
+        }
+
+        .contact-container .title{
+            color: white;
+            font-size: 32px; /* Ensure title and description are black */
+        }
+
+
+        .contact-details {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+
+        /* Discover Section */
+#discover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full page */
+    width: 100%;
+    text-align: center;
+    color: white;
+    background: linear-gradient(135deg, #005c97, #363795); /* Same gradient */
+    position: relative;
+}
+
+.section-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-family: "Delius", cursive;
+}
+
+/* Event Container */
+.event-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 60%;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.2); /* Translucent */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Event Slider */
+.event-slider {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Event Boxes */
+.event-box {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background: rgba(0, 0, 0, 0.3); /* Dark translucent */
+    border-radius: 10px;
+}
+
+/* Navigation Arrows */
+.left-arrow, .right-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5); /* Translucent background */
+    color: white;
+    border: none;
+    padding: 15px 20px; /* Ensure enough clickable area */
+    cursor: pointer; /* Ensures the pointer effect */
+    font-size: 24px;
+    z-index: 10;
+    transition: background 0.3s ease-in-out;
+}
+
+.left-arrow {
+    left: 10px;
+}
+
+.right-arrow {
+    right: 10px;
+}
+
+.left-arrow:hover, .right-arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+
+.arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Conversation Bubble Styles */
+.conversation-bubble {
+    position: absolute;
+    top: 60px; /* Adjust vertical position as needed */
+    right: 50px; /* Adjust horizontal position as needed */
+    background: rgba(255, 255, 255, 0.95); /* Light white, slightly translucent */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    z-index: 2000; /* Ensure it appears above other elements */
+}
+
+/* Conversation Bubble Tail (Pointer) - Now positioned at the top */
+.conversation-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: 100%; /* Positions the tail at the top edge of the bubble */
+    margin-right: 50px; /* Adjust this value to align the pointer with the Get Started button */
+    border-width: 10px;
+    border-style: solid;
+    /* The colored border is on the bottom side, so the pointer points upward toward the Get Started button */
+    border-color: transparent transparent rgba(255, 255, 255, 0.95) transparent;
+}
+
+/* Conversation Bubble Items */
+.conversation-bubble .conv-item {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px;
+    position: relative;
+    font-family: "Dekko", cursive;
+    transition: all 0.6s ease-in-out; /* Slow underline hover effect */
+}
+
+/* Underline Effect for Conversation Items */
+.conversation-bubble .conv-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #009dff;
+    transition: width 0.6s ease-in-out;
+}
+
+.conversation-bubble .conv-item:hover::after {
+    width: 100%;
+}
+
+.slide-in {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+}
+
+.slide-out {
+    transform: translateY(50px);
+    opacity: 0;
+    transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+}
+
+
+
+/* 
+  To adjust the position of the conversation bubble:
+  - Modify the "top" property of .conversation-bubble to move it up or down.
+  - Modify the "right" property of .conversation-bubble to move it horizontally.
+  - Adjust "right" in .conversation-bubble::after to reposition the pointer.
+*/
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">CampusHive</div>
+        <div class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#discover">Discover</a>
+            <a href="#contact">Contact</a>
+            <a href="#start" class="get-started" style="color: black;">Get Started</a>
+            <!-- Conversation Bubble (Hidden by Default) -->
+<div id="conversation-bubble" class="conversation-bubble">
+    <a href="signup.html" class="conv-item">Sign-Up</a>
+    <a href="login.html" class="conv-item">Login</a>
+</div>
+
+        </div>
+    </div>
+
+    <!-- Home Section -->
+    <section id="home">
+        <div class="content">
+            <div class="title">CampusHive</div>
+            <p class="description">Empowering connections, optimizing management</p><br>
+            <a href="#start" class="get-started" style="font-size: 22px;">Get Started</a>
+        </div>
+    </section>
+
+    <!-- New About Section -->
+    <section id="about">
+        <div class="about-container">
+            <h2 class="title">About CampusHive</h2>
+            <p class="descriptio">
+                CampusHive revolutionizes campus life with smart networking tools that bridge the gap between administration, faculty, and students - powering collaboration for academic and career success.
+            </p>
+        </div>
+    </section>
+
+    <!-- Discover Section -->
+<section id="discover">
+    <h2 class="section-title">Upcoming Events</h2>
+    <div class="event-container">
+        <button class="arrow left-arrow">&#10094;</button>
+        <div class="event-slider">
+            <div class="event-box">Box 1</div>
+            <div class="event-box">Box 2</div>
+            <div class="event-box">Box 3</div>
+            <div class="event-box">Box 4</div>
+        </div>
+        <button class="arrow right-arrow">&#10095;</button>
+    </div>
+</section>
+
+    <!-- New Contact Section -->
+    <section id="contact">
+        <div class="contact-container">
+            <h2 class="title">Got Queries</h2>
+            <div class="contact-details">
+                <p>📧  amrita@campushive.com</p>
+                <p>📞  +91 1234567890</p>
+                <p>📍  Amrita VishwaVidhyapeetham, Chennai</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Navigation Highlighting (Your Existing Code)
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".nav-links a");
+    
+        function updateActiveLink() {
+            let currentSection = "";
+    
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop - sectionHeight / 3) {
+                    currentSection = section.getAttribute("id");
+                }
+            });
+    
+            navLinks.forEach((link) => {
+                link.classList.remove("active");
+                if (link.getAttribute("href").includes(currentSection)) {
+                    link.classList.add("active");
+                }
+            });
+        }
+    
+        window.addEventListener("scroll", updateActiveLink);
+        updateActiveLink(); // Call once to highlight the correct section on page load
+    
+        // Event Scrolling (Fixed Code)
+        const slider = document.querySelector(".event-slider");
+        const eventBoxes = document.querySelectorAll(".event-box");
+        const leftArrow = document.querySelector(".left-arrow");
+        const rightArrow = document.querySelector(".right-arrow");
+    
+        let index = 0;
+        const totalBoxes = eventBoxes.length;
+        const scrollInterval = 5000; // Auto-scroll every 5 seconds
+        let autoScrollTimer; // Variable for auto-scroll timer
+    
+        // Clone first and last event for smooth looping
+        const firstClone = eventBoxes[0].cloneNode(true);
+        const lastClone = eventBoxes[totalBoxes - 1].cloneNode(true);
+    
+        slider.appendChild(firstClone); // Add first clone to end
+        slider.insertBefore(lastClone, eventBoxes[0]); // Add last clone to start
+    
+        // Adjust slider width and start position
+        const newTotal = totalBoxes + 2; // Include clones
+        slider.style.width = `${newTotal * 100}%`;
+        slider.style.transform = `translateX(-100%)`; // Start at real first box
+    
+        function updateSlide() {
+            slider.style.transition = "transform 0.5s ease-in-out";
+            slider.style.transform = `translateX(-${(index + 1) * 100}%)`;
+        }
+    
+        function nextSlide() {
+            index++;
+            updateSlide();
+    
+            if (index === totalBoxes) {
+                setTimeout(() => {
+                    slider.style.transition = "none"; // Remove animation
+                    index = 0;
+                    slider.style.transform = `translateX(-100%)`;
+                }, 500);
+            }
+            resetAutoScroll(); // Reset timer when manually moved
+        }
+    
+        function prevSlide() {
+            index--;
+            updateSlide();
+    
+            if (index < 0) {
+                setTimeout(() => {
+                    slider.style.transition = "none"; // Remove animation
+                    index = totalBoxes - 1;
+                    slider.style.transform = `translateX(-${totalBoxes * 100}%)`;
+                }, 500);
+            }
+            resetAutoScroll(); // Reset timer when manually moved
+        }
+    
+        rightArrow.addEventListener("click", nextSlide);
+        leftArrow.addEventListener("click", prevSlide);
+    
+        // Auto-scroll with reset function
+        function startAutoScroll() {
+            autoScrollTimer = setInterval(nextSlide, scrollInterval);
+        }
+    
+        function resetAutoScroll() {
+            clearInterval(autoScrollTimer); // Stop current timer
+            startAutoScroll(); // Restart timer after manual move
+        }
+    
+        startAutoScroll(); // Start auto-scroll on page load
+    
+        // Conversation Bubble Handling for ALL Get Started Buttons
+        const getStartedBtns = document.querySelectorAll(".get-started");
+        const convBubble = document.getElementById("conversation-bubble");
+    
+        getStartedBtns.forEach(btn => {
+            btn.addEventListener("click", function (e) {
+                e.preventDefault(); // Prevent default link action
+    
+                // Optionally read custom size from data attributes
+                const bubbleWidth = btn.getAttribute("data-bubble-width") || "100px";
+                const bubbleHeight = btn.getAttribute("data-bubble-height") || "auto";
+                convBubble.style.width = bubbleWidth;
+                convBubble.style.height = bubbleHeight;
+    
+                // Position the conversation bubble relative to the clicked button
+                const rect = btn.getBoundingClientRect();
+                convBubble.style.top = (rect.bottom + window.scrollY + 10) + "px"; // 10px below button
+                convBubble.style.left = (rect.left + window.scrollX) + "px";
+    
+                // Toggle display between "flex" (visible) and "none" (hidden)
+                if (convBubble.style.display === "flex") {
+                    convBubble.style.display = "none";
+                } else {
+                    convBubble.style.display = "flex";
+                }
+            });
+        });
+    
+        // Hide the conversation bubble when the mouse leaves it
+        convBubble.addEventListener("mouseleave", function () {
+            convBubble.style.display = "none";
+        });
+    
+        // Fade In/Out Effects for Sections using IntersectionObserver
+        const sectionsFade = document.querySelectorAll("section");
+        const observerOptions = {
+            threshold: 0.5
+        };
+    
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("slide-in");
+                    entry.target.classList.remove("slide-out");
+                } else {
+                    entry.target.classList.remove("slide-in");
+                    entry.target.classList.add("slide-out");
+                }
+            });
+        }, observerOptions);
+    
+        sectionsFade.forEach(section => {
+            // Initialize with fade-out class
+            section.classList.add("slide-out");
+            observer.observe(section);
+        });
+    });
+    </script>
+    
+    
+    
+
